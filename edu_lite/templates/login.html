@@ -1,0 +1,27 @@
+<html>
+{% extends"bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+<!--{% if form.errors %}-->
+<!--{{ form.errors }}-->
+<!--{% endif %}-->
+
+{% block content %}
+
+<div class="container">
+<h1>Вход</h1>
+	<form action="" method="POST" name="login">
+	    {{ form.hidden_tag() }}
+	    <p>
+	        {{ wtf.form_field(form.name) }}<br>
+	        {{ wtf.form_field(form.password) }}<br>
+	    </p>
+	    <p>
+	        {{ wtf.form_field(form.remember_me) }} 
+	    </p>
+	    <p>
+	    	<input type="submit" value="Войти">
+	    </p>
+	</form>
+</div>
+{% endblock %}
+</html>
