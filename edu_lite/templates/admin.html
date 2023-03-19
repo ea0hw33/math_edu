@@ -13,7 +13,7 @@
     {{ form_file.hidden_tag() }}
     <p>
         <b>Тест</b><br>
-        {{ form_file.test() }}
+        {{ form_file.topic() }}
         {{ wtf.form_field(form_file.file) }}
     </p>
     <p>
@@ -24,10 +24,10 @@
 <hr>
 <div class="container">
 <h3>Добавить тест</h3>
-<form action="" method="POST" name="test">
-    {{ form_new_test.hidden_tag() }}
+<form action="" method="POST" name="topic">
+    {{ form_new_topic.hidden_tag() }}
     <p>
-        {{ wtf.form_field(form_new_test.test_name) }}
+        {{ wtf.form_field(form_new_topic.topic_name) }}
     </p>
     <p>
         <input type="submit" value="Добавить">

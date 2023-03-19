@@ -4,7 +4,7 @@ from edu_lite import db
 from edu_lite import models
 
 
-def add_questions(test_id, file_name):
+def add_questions(topic_id, file_name):
     """
     Add questions.
 
@@ -31,15 +31,15 @@ def add_questions(test_id, file_name):
         print(item)
         for i in item:
             if i[0] == '?':
-                question = models.Questions(value=i[1:],test_id=test_id,type=0)
+                question = models.Questions(value=i[1:],topic_id=topic_id,type=0)
                 db.session.add(question)
                 db.session.commit()
             elif i[0] == '#':
-                question = models.Questions(value=i[1:],test_id=test_id,type=1)
+                question = models.Questions(value=i[1:],topic_id=topic_id,type=1)
                 db.session.add(question)
                 db.session.commit()
             elif i[0] == '@':
-                question = models.Questions(value=i[1:], test_id=test_id, type=2)
+                question = models.Questions(value=i[1:], topic_id=topic_id, type=2)
                 db.session.add(question)
                 db.session.commit()
 

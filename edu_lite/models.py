@@ -1,10 +1,10 @@
 from edu_lite import db
 
 
-class Tests(db.Model):
+class Topics(db.Model):
     """Tests model."""
 
-    __tablename__ = 'tests'
+    __tablename__ = 'topics'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -17,7 +17,7 @@ class Questions(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     value = db.Column(db.String)
-    test_id = db.Column(db.Integer, db.ForeignKey("tests.id"))
+    topic_id = db.Column(db.Integer, db.ForeignKey("topics.id"))
     type = db.Column(db.Integer) #RadioField = 0, MultiCheckboxField = 1, StringField = 2
 
 
@@ -44,7 +44,7 @@ class Attempts(db.Model):
     student_id = db.Column(db.Integer, db.ForeignKey("students.id"))
     starttime = db.Column(db.DateTime)
     endtime = db.Column(db.DateTime)
-    test_id = db.Column(db.Integer, db.ForeignKey("tests.id"))
+    topic_id = db.Column(db.Integer, db.ForeignKey("topics.id"))
 
 
 

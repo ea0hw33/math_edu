@@ -4,7 +4,7 @@ from wtforms import BooleanField, StringField, PasswordField, FileField, SelectF
 from wtforms.fields import DateField
 from wtforms.validators import Email, DataRequired, EqualTo, ValidationError, InputRequired
 from edu_lite import db
-from .models import Students, Answers, Questions, Tests, Attempts
+from .models import Students, Answers, Questions, Topics, Attempts
 from passlib.hash import sha256_crypt
 
 
@@ -33,15 +33,13 @@ def validate_username(form, field):
 
 
 
-class TestForm(FlaskForm):
+class TopicForm(FlaskForm):
     """Test form."""
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # test = SelectField('Тест', choices=[])
-        self.tests = [i.name for i in Tests.query.all()]
+        self.topics = [i for i in Topics.query.all()]
+    topic = SelectField('Темы', choices=[])
 
-    # test =
-    # url_test = [] #StringField()
 
 
 class LoginForm(FlaskForm):
@@ -115,7 +113,7 @@ class AttemptForm(FlaskForm):
         self.field_answer.name= str(question_id)
 
 
-class PastAttemptsForm(TestForm):
+class PastAttemptsForm(TopicForm):
     """Past attempts form."""
 
     student = SelectField('Студент', choices=[])
@@ -123,13 +121,13 @@ class PastAttemptsForm(TestForm):
 
 
 
-class FileForm(TestForm):
+class FileForm(TopicForm):
     """File form."""
 
     file = FileField('Файл', validators=[DataRequired()])
 
-class NewTestForm(FlaskForm):
+class NewTopicForm(FlaskForm):
     """New test form."""
 
-    test_name = StringField('Название теста', validators=[DataRequired()])
+    topic_name = StringField('Название теста', validators=[DataRequired()])
 
