@@ -48,25 +48,12 @@ function checkInputs(form){
         {{ form.hidden_tag() }}
             
             {% for item in questions %}
-
-                {% if item[2] == 0 %}
-                    {{ form.add_choices(item[0]) }}
-                    <h3>{{ item[1] }}</h3>
-                    {{ form.answer() }}
-                {% elif item[2] == 1 %}
-                    {{ form.add_multiple_choices(item[0]) }}
-                    <h3>{{ item[1] }}</h3>
-                    {{ form.multi_answer() }}
-                {% else %}
-                    {{ form.add_field(item[0]) }}
-                    <h3>{{ item[1] }}</h3>
-                    {{ form.field_answer() }}
-                {% endif %}
-
+                <h3>{{ item[1] }}</h3>
+                {{ form.field_answer(id=item[0]) }}
             {% endfor %}
 
         <p>
-            <input type="button" value="Отправить" onclick="checkInputs(form);">
+            <input type="submit" value="Отправить">
         </p>
     
 </form>

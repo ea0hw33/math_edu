@@ -5,13 +5,25 @@ from passlib.hash import sha256_crypt
 
 from flask import render_template, flash, request, redirect, session, jsonify
 from edu_lite import app, db
-from .forms import LoginForm, RegistrationForm, TopicForm, AttemptForm, FileForm, NewTopicForm, PastAttemptsForm
-from .models import Topics, Students, Questions, Answers, Attempts, Results
+from .forms import LoginForm, RegistrationForm, TopicForm, AttemptForm, PastAttemptsForm
+from .models import Topics, Students, Questions, Attempts, Results, Subtopics
 from flask_login import login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 from .manage import add_questions
 
 
+@app.route('/_parse_data', methods=['GET'])
+def parse_data():
+    if request.method == "GET":
+
+        # only need the id we grabbed in my case.
+        id = request.args.keys()
+        print(id)
+
+        # When returning data it has to be jsonify'ed and a list of tuples (id, value) to populate select fields.
+        # Example: [('1', 'One'), ('2', 'Two'), ('3', 'Three')]
+
+    # return jsonify(new_list)
 
 @app.route('/topic', methods=['GET', 'POST'])
 @login_required
@@ -19,20 +31,24 @@ def topic():
     """topic view."""
 
     topics = [(t.id,t.name) for t in Topics.query.all()]
+    subtopics = [(st.id,st.name) for st in Subtopics.query.all()]
     form = TopicForm()
     form.topic.choices = topics
+    form.subtopic.choices = subtopics
+    # form.subtopic.choices = [(st.id,st.name) for st in Subtopics.query.filter_by(topic_id=session['topic_id']).all()]
     # form.url_topic.append()
     # for i,j in zip(form.url_topic,topics):
     #     i.label = j
     # for i in topics:
     #     form.topic.label = i
-
     if request.method == "POST":
         session['topic_id'] = form.topic.data
+        session['subtopic_id'] = form.subtopic.data
         session['starttime'] = datetime.now()
         attempt = Attempts(student_id=session['_user_id'],
                            starttime=session['starttime'],
-                           topic_id=session['topic_id'])
+                           topic_id=session['topic_id'],
+                           subtopic_id= session['subtopic_id'])
         db.session.add(attempt)
         db.session.commit()
         return redirect('/topic/attempt')
@@ -49,32 +65,16 @@ def attempt():
     """Attempt view."""
 
     form = AttemptForm()
-    questions = [(q.id,q.value,q.type) for q in Questions.query.filter_by(topic_id=session['topic_id']).all()]
-    print(questions)
+    questions = [(q.id,q.value) for q in Questions.query.filter_by(subtopic_id=session['subtopic_id']).all()]
     if request.method == "POST":
         attempt = Attempts.query.order_by(Attempts.starttime.desc()).filter_by(student_id=session['_user_id'],
-                                           topic_id=session['topic_id']).first()
+                                            topic_id=session['topic_id'],
+                                           subtopic_id=session['subtopic_id']).first()
         session['attempt_id'] = attempt.id
-        for question in questions:
-            if question[2] == 0:   # Check on single answer
-                form_answer = request.form.get(str(question[0]))
+        for question,field in zip(questions,request.values.dicts[1].getlist('field_answer')):
                 results = Results(attempt_id=attempt.id,
                                   question_id=question[0],
-                                  fact_id=int(form_answer))
-                db.session.add(results)
-            elif question[2] == 1:
-                form_answers = request.form.getlist(str(question[0]))
-                int_form_answers =  [int(x) for x in form_answers]
-                for answer in int_form_answers:
-                    results = Results(attempt_id=attempt.id,
-                                      question_id=question[0],
-                                      fact_id=answer)
-                    db.session.add(results)
-            else:
-                form_answer = request.form.get(str(question[0]))
-                results = Results(attempt_id=attempt.id,
-                                  question_id=question[0],
-                                  fact_id=int(form_answer))
+                                  fact_id=float(field))
                 db.session.add(results)
         endtime = datetime.now()
         attempt.endtime = endtime
@@ -93,33 +93,20 @@ def results():
     """Results view."""
 
     results_list = []    
-    questions = [(q.id,q.value,q.type) for q in Questions.query.filter_by(topic_id=session['topic_id']).all()]
+    questions = [(q.id,q.value,q.answer) for q in Questions.query.filter_by(subtopic_id=session['subtopic_id']).all()]
     # Count of total result in format 'count of correct answers/count of all answers'
     total = 0
     for question in questions:
         fact_ids = [r.fact_id for r in Results.query.filter_by(attempt_id=session['attempt_id'], 
                                                                question_id=question[0]).all()]
-        if question[2] == 0:
-            correct_answer = Answers.query.filter_by(question_id=question[0], iscorrect=1).first()
-            if correct_answer.id in fact_ids:
-                total += 1
-        if question[2] == 1:
-            wrong = 0
-            correct_answers = Answers.query.filter_by(question_id=question[0], iscorrect=1).all()
-            for answer in correct_answers:
-                if answer.id not in fact_ids:
-                    wrong += 1
-                for fact_id in fact_ids:
-                    fact = Answers.query.get(fact_id)
-                    if fact.iscorrect == 0:
-                        wrong += 1
-            if wrong == 0:
-                total += 1
-        answers = Answers.query.filter_by(question_id=question[0]).all()
-        results_list.append([question[1], answers, fact_ids])
+
+        if question[2] in fact_ids:
+            total += 1
+        # answers = Answers.query.filter_by(question_id=question[0]).all()
+        # print(questions)
+        results_list.append([question[1], question[2], *fact_ids])
     count = 0
-    for question in questions:
-        count += 1
+    count = len(questions)
     total_result = str(total) + '/' + str(count)
     return render_template('results.html',
                             title='Результаты',
@@ -148,22 +135,16 @@ def past_attempts():
 def get_past_attempts():
     """Util view for AJAX load of past attempts."""
 
-    topic_id = request.form['topic']
+    # topic_id = request.form['topic']
     student_id = request.form['student']
-    topic_date = request.form['date']
+    # topic_date = request.form['date']
     attempts_dict = {}
-    topic_day = datetime.strptime(topic_date, '%Y-%m-%d')
-    next_day = topic_day + timedelta(days=1)
-    #attempts = [(a.id, a.starttime, a.endtime) for a in Attempts.filter(Attempts.topic_id==topic_id,
-    #                                                                    Attempts.student_id==student_id,
-    #                                                                    Attempts.starttime>=topic_day,
-    #                                                                    Attempts.endtime <= next_day).all()]
-    attempts = [(a.id, a.starttime, a.endtime) for a in db.session.query(Attempts).filter(Attempts.topic_id==topic_id,
-                                                                                   Attempts.student_id==student_id,
-                                                                                   Attempts.starttime>=topic_day,
-                                                                                   Attempts.endtime <= next_day).all()]
+    # topic_day = datetime.strptime(topic_date, '%Y-%m-%d')
+    # next_day = topic_day + timedelta(days=1)
+    attempts = [(a.id, a.starttime, a.endtime) for a in db.session.query(Attempts).filter(Attempts.student_id==student_id)]
     for attempt in attempts:
         attempts_dict[str(attempt[0])] = {'start': attempt[1], 'end': attempt[2]}
+    print(attempts_dict)
     return jsonify(attempts_dict)
 
 
@@ -185,16 +166,13 @@ def login():
     """Login view."""
 
     form = LoginForm()
-    # print(form.validate_on_submit(),form.is_submitted(),'_')
     if request.method == "POST" and form.validate_on_submit():
         form_name = form.name.data
         form_password = form.password.data
         form_remember = form.remember_me.data
         user = form.validate_user(form_name, form_password)
-        # print(user,'_')
         if user:
                 login_user(user, remember = form_remember)
-                # print(session)
                 student = Students.query.get(session['_user_id'])
                 if student.isadmin == 1:
                     return redirect('/admin')
@@ -236,35 +214,7 @@ def admin():
     if student.isadmin != 1:
         return "Access denied!!!"
     else:
-        form_file = FileForm()
-        names = [(t.id,t.name) for t in Topics.query.all()]
-        form_file.topic.choices = names
-        form_new_topic = NewTopicForm()
         form_reg = RegistrationForm()
-        if request.method == 'POST' and form_file.file.data:
-            filename = secure_filename(form_file.file.data.filename)
-            form_file.file.data.save('uploads/' + filename)
-            topic_id = form_file.topic.data
-            add_questions(topic_id,filename)
-            message = 'Вопросы из файла {} добавлены'.format(filename) 
-            return render_template('admin.html',
-                                   title='Админка',
-                                   message=message,
-                                   form_new_topic=form_new_topic,
-                                   form_reg=form_reg,
-                                   form_file=form_file)
-        if request.method == 'POST' and form_new_topic.validate_on_submit():
-            topic_name = request.form.get('topic_name')
-            new_topic = Topics(name=topic_name)
-            db.session.add(new_topic)
-            db.session.commit()
-            message = 'Добавлен тест {}'.format(form_new_topic.topic_name.data)
-            return render_template('admin.html',
-                                   title='Админка',
-                                   message=message,
-                                   form_new_topic=form_new_topic,
-                                   form_reg=form_reg,
-                                   form_file=form_file)
         if request.method == 'POST' and form_reg.validate_on_submit():
             form_name = form_reg.name.data
             form_password = form_reg.password.data
@@ -275,12 +225,8 @@ def admin():
                 return render_template('admin.html',
                                        title='Админка',
                                        message=message,
-                                       form_new_topic=form_new_topic,
-                                       form_reg=form_reg,
-                                       form_file=form_file)
+                                       form_reg=form_reg)
         return render_template('admin.html',
                                title='Админка',
-                               form_new_topic=form_new_topic,
-                               form_reg=form_reg,
-                               form_file=form_file)
+                               form_reg=form_reg)
         

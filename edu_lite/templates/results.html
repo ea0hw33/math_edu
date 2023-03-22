@@ -8,23 +8,18 @@
 <h2 style="text-align:center;color:purple">{{ total_result }}</h2>
 <hr>
 
-{% for result in results %}
-<div class="container">
-   <h3>{{ result[0] }}</h3>
-            {% for answer in result[1] %}
-                   {% if answer.iscorrect == 0 and answer.id in result[2] %}
-                		<p style="color:red">{{ answer.value }}</p>
-                   {% elif answer.iscorrect == 1 and answer.id in result[2] %}
-                        <p style="color:blue">{{ answer.value }}</p>
-                   {% elif answer.iscorrect == 1 and answer.id not in result[2]%}
-                        <p style="color:green">{{ answer.value }}</p>
-                   {% endif %}
-            {% endfor %}
-    <hr>
-</div>
+
+{% for answer in results %}
+        {% if answer[1] == answer[2] %}
+                <p style="color:green">{{ answer[0] }}</p>
+        {% else %}
+                <p style="color:red">{{ answer[0] }}</p>
+        {% endif %}
 {% endfor %}
+<hr>
+
 <div class="container">
-<a href="/test"><p>Продолжить тестирование</p></a>
+<a href="/topic"><p>Продолжить тестирование</p></a>
 <hr>
 <a href="/logout"><p>Закончить работу</p></a>
 </div>

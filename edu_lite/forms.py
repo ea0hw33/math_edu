@@ -4,7 +4,7 @@ from wtforms import BooleanField, StringField, PasswordField, FileField, SelectF
 from wtforms.fields import DateField
 from wtforms.validators import Email, DataRequired, EqualTo, ValidationError, InputRequired
 from edu_lite import db
-from .models import Students, Answers, Questions, Topics, Attempts
+from .models import Students, Questions, Topics, Attempts
 from passlib.hash import sha256_crypt
 
 
@@ -35,10 +35,10 @@ def validate_username(form, field):
 
 class TopicForm(FlaskForm):
     """Test form."""
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.topics = [i for i in Topics.query.all()]
+
     topic = SelectField('Темы', choices=[])
+    subtopic = SelectField('Подтемы', choices=[])
+
 
 
 
@@ -75,43 +75,18 @@ class RegistrationForm(LoginForm):
         db.session.add(new_user)
         db.session.commit()
 
-class MultiCheckboxField(SelectMultipleField):
-    """Field for multi answers."""
-
-    widget = widgets.ListWidget(prefix_label=False)
-    option_widget = widgets.CheckboxInput()
-
-
 class AttemptForm(FlaskForm):
     """Form for pass atempt."""
 
-    answer = RadioField('answer', choices=[], validators=[])
-    multi_answer = MultiCheckboxField('multi_answer', choices=[], validators=[])
-    field_answer = StringField('field_answer', validators=[])
-
-    def add_choices(self, question_id):
-        """Load choices."""
-
-        answers = [(a.id,a.value) for a in Answers.query.filter_by(question_id=question_id).all()]
-        self.answer.choices = answers
-        self.answer.id = question_id
-        self.answer.name= str(question_id)
-        return ''
-
-    def add_multiple_choices(self, question_id):
-        """Load multiple choices."""
-
-        answers = [(a.id,a.value) for a in Answers.query.filter_by(question_id=question_id).all()]
-        self.multi_answer.choices = answers
-        self.multi_answer.id = question_id
-        self.multi_answer.name= str(question_id)
-        return ''
+    # answer = RadioField('answer', choices=[], validators=[])
+    # multi_answer = MultiCheckboxField('multi_answer', choices=[], validators=[])
+    field_answer = StringField('field_answer', validators = [DataRequired()])
     def add_field(self, question_id):
         # answers = [(a.id, a.value) for a in Answers.query.filter_by(question_id=question_id).all()]
         self.field_answer.id = question_id
         # self.field_answer.validators = answers
         self.field_answer.name= str(question_id)
-
+        # return field_answer
 
 class PastAttemptsForm(TopicForm):
     """Past attempts form."""
@@ -121,13 +96,13 @@ class PastAttemptsForm(TopicForm):
 
 
 
-class FileForm(TopicForm):
-    """File form."""
+# class FileForm(TopicForm):
+#     """File form."""
+#
+#     file = FileField('Файл', validators=[DataRequired()])
 
-    file = FileField('Файл', validators=[DataRequired()])
-
-class NewTopicForm(FlaskForm):
-    """New test form."""
-
-    topic_name = StringField('Название теста', validators=[DataRequired()])
+# class NewTopicForm(FlaskForm):
+#     """New test form."""
+#
+#     topic_name = StringField('Название теста', validators=[DataRequired()])
 

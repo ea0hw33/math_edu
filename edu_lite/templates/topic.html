@@ -6,11 +6,16 @@
 
 <div class="container">
 <h1>Тестирование</h1>
+
 <form action="" method="POST" name="topic">
-   {{ form.hidden_tag() }}
-    <p>
+        <p>
         Выбери испытание:<br>
         {{ form.topic() }}<br>
+    </p>
+    <p>
+        Выбери подтему:<br>
+        {{ form.subtopic() }}
+
     </p>
     <p>
         <input type="submit" value="Начать">
@@ -18,8 +23,5 @@
 </form>
 </div>
 <hr>
-
-
-
 
 {% endblock %}

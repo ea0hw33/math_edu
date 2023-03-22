@@ -2,13 +2,22 @@ from edu_lite import db
 
 
 class Topics(db.Model):
-    """Tests model."""
+    """Topics model."""
 
     __tablename__ = 'topics'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
 
+
+class Subtopics(db.Model):
+    """Subtopic model"""
+    __tablename__ = 'subtopics'
+
+
+    id = db.Column(db.Integer, primary_key=True)
+    topic_id = db.Column(db.Integer, db.ForeignKey("topics.id"))
+    name = db.Column(db.String)
 
 class Questions(db.Model):
     """Questions model."""
@@ -17,21 +26,22 @@ class Questions(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     value = db.Column(db.String)
-    topic_id = db.Column(db.Integer, db.ForeignKey("topics.id"))
-    type = db.Column(db.Integer) #RadioField = 0, MultiCheckboxField = 1, StringField = 2
+    subtopic_id = db.Column(db.Integer, db.ForeignKey("subtopics.id"))
+    answer = db.Column(db.Float)
 
 
 
 
-class Answers(db.Model):
-    """Answers model."""
 
-    __tablename__ = 'answers'
-
-    id = db.Column(db.Integer, primary_key=True)
-    value = db.Column(db.String)
-    question_id = db.Column(db.Integer, db.ForeignKey("questions.id"))
-    iscorrect = db.Column(db.Integer)
+# class Answers(db.Model):
+#     """Answers model."""
+#
+#     __tablename__ = 'answers'
+#
+#     id = db.Column(db.Integer, primary_key=True)
+#     value = db.Column(db.String)
+#     question_id = db.Column(db.Integer, db.ForeignKey("questions.id"))
+#     iscorrect = db.Column(db.Integer)
 
 
 
@@ -45,6 +55,7 @@ class Attempts(db.Model):
     starttime = db.Column(db.DateTime)
     endtime = db.Column(db.DateTime)
     topic_id = db.Column(db.Integer, db.ForeignKey("topics.id"))
+    subtopic_id = db.Column(db.Integer, db.ForeignKey("subtopics.id"))
 
 
 
@@ -56,7 +67,7 @@ class Results(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     attempt_id = db.Column(db.Integer, db.ForeignKey("attempts.id"))
     question_id = db.Column(db.Integer, db.ForeignKey("questions.id"))
-    fact_id = db.Column(db.Integer)
+    fact_id = db.Column(db.Float)
 
 
 
