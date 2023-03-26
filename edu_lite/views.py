@@ -35,16 +35,15 @@ def topic():
     form = TopicForm()
     form.topic.choices = topics
     form.subtopic.choices = subtopics
-    # form.subtopic.choices = [(st.id,st.name) for st in Subtopics.query.filter_by(topic_id=session['topic_id']).all()]
-    # form.url_topic.append()
-    # for i,j in zip(form.url_topic,topics):
-    #     i.label = j
-    # for i in topics:
-    #     form.topic.label = i
     if request.method == "POST":
         session['topic_id'] = form.topic.data
         session['subtopic_id'] = form.subtopic.data
+        session['time'] = int(form.time.data)
+        session['num_of_questions'] = int(form.num_of_questions.data)
         session['starttime'] = datetime.now()
+        num_of_questions = session['num_of_questions']
+        for _ in range(num_of_questions):
+            add_questions(session['subtopic_id'])
         attempt = Attempts(student_id=session['_user_id'],
                            starttime=session['starttime'],
                            topic_id=session['topic_id'],
@@ -65,7 +64,7 @@ def attempt():
     """Attempt view."""
 
     form = AttemptForm()
-    questions = [(q.id,q.value) for q in Questions.query.filter_by(subtopic_id=session['subtopic_id']).all()]
+    questions = [(q.id,q.value) for q in Questions.query.filter_by(subtopic_id=session['subtopic_id']).all()][-session['num_of_questions']:]
     if request.method == "POST":
         attempt = Attempts.query.order_by(Attempts.starttime.desc()).filter_by(student_id=session['_user_id'],
                                             topic_id=session['topic_id'],
@@ -94,7 +93,6 @@ def results():
 
     results_list = []    
     questions = [(q.id,q.value,q.answer) for q in Questions.query.filter_by(subtopic_id=session['subtopic_id']).all()]
-    # Count of total result in format 'count of correct answers/count of all answers'
     total = 0
     for question in questions:
         fact_ids = [r.fact_id for r in Results.query.filter_by(attempt_id=session['attempt_id'], 
@@ -102,8 +100,6 @@ def results():
 
         if question[2] in fact_ids:
             total += 1
-        # answers = Answers.query.filter_by(question_id=question[0]).all()
-        # print(questions)
         results_list.append([question[1], question[2], *fact_ids])
     count = 0
     count = len(questions)
@@ -120,10 +116,7 @@ def past_attempts():
     """Past attempts view."""
 
     form = PastAttemptsForm()
-    topics = [(t.id,t.name) for t in Topics.query.all()]
-    form.topics.choices = topics
-    students = [(s.id,s.name) for s in Students.query.all()]
-    form.student.choices = students
+    form.student.choices = [(s.id, s.name) for s in db.session.query(Students).filter(Students.isadmin == 0)]
     return render_template('past_attempts.html',
                             title='Прошлые попытки',
                             form=form)
@@ -215,6 +208,9 @@ def admin():
         return "Access denied!!!"
     else:
         form_reg = RegistrationForm()
+        past_attempt = PastAttemptsForm()
+        past_attempt.student.choices = [(s.id, s.name) for s in db.session.query(Students).filter(Students.isadmin==0)]
+
         if request.method == 'POST' and form_reg.validate_on_submit():
             form_name = form_reg.name.data
             form_password = form_reg.password.data
@@ -228,5 +224,6 @@ def admin():
                                        form_reg=form_reg)
         return render_template('admin.html',
                                title='Админка',
-                               form_reg=form_reg)
+                               form_reg=form_reg,
+                               past_attempt=past_attempt)
         

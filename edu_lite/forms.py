@@ -38,6 +38,8 @@ class TopicForm(FlaskForm):
 
     topic = SelectField('Темы', choices=[])
     subtopic = SelectField('Подтемы', choices=[])
+    num_of_questions = StringField('Количество вопросов', validators=[DataRequired()])
+    time = StringField('Время прохождения теста', validators=[DataRequired()])
 
 
 
@@ -78,31 +80,13 @@ class RegistrationForm(LoginForm):
 class AttemptForm(FlaskForm):
     """Form for pass atempt."""
 
-    # answer = RadioField('answer', choices=[], validators=[])
-    # multi_answer = MultiCheckboxField('multi_answer', choices=[], validators=[])
     field_answer = StringField('field_answer', validators = [DataRequired()])
     def add_field(self, question_id):
-        # answers = [(a.id, a.value) for a in Answers.query.filter_by(question_id=question_id).all()]
         self.field_answer.id = question_id
-        # self.field_answer.validators = answers
         self.field_answer.name= str(question_id)
-        # return field_answer
 
 class PastAttemptsForm(TopicForm):
     """Past attempts form."""
 
     student = SelectField('Студент', choices=[])
     date = DateField('Дата', format="%Y-%m-%d")
-
-
-
-# class FileForm(TopicForm):
-#     """File form."""
-#
-#     file = FileField('Файл', validators=[DataRequired()])
-
-# class NewTopicForm(FlaskForm):
-#     """New test form."""
-#
-#     topic_name = StringField('Название теста', validators=[DataRequired()])
-

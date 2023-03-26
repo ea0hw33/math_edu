@@ -30,21 +30,6 @@ class Questions(db.Model):
     answer = db.Column(db.Float)
 
 
-
-
-
-# class Answers(db.Model):
-#     """Answers model."""
-#
-#     __tablename__ = 'answers'
-#
-#     id = db.Column(db.Integer, primary_key=True)
-#     value = db.Column(db.String)
-#     question_id = db.Column(db.Integer, db.ForeignKey("questions.id"))
-#     iscorrect = db.Column(db.Integer)
-
-
-
 class Attempts(db.Model):
     """Attempts model."""
 
