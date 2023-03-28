@@ -73,7 +73,7 @@ def attempt():
         for question,field in zip(questions,request.values.dicts[1].getlist('field_answer')):
                 results = Results(attempt_id=attempt.id,
                                   question_id=question[0],
-                                  fact_id=float(field))
+                                  fact_answer=str(field))
                 db.session.add(results)
         endtime = datetime.now()
         attempt.endtime = endtime
@@ -95,7 +95,7 @@ def results():
     questions = [(q.id,q.value,q.answer) for q in Questions.query.filter_by(subtopic_id=session['subtopic_id']).all()]
     total = 0
     for question in questions:
-        fact_ids = [r.fact_id for r in Results.query.filter_by(attempt_id=session['attempt_id'], 
+        fact_ids = [r.fact_answer for r in Results.query.filter_by(attempt_id=session['attempt_id'],
                                                                question_id=question[0]).all()]
 
         if question[2] in fact_ids:
@@ -116,7 +116,7 @@ def past_attempts():
     """Past attempts view."""
 
     form = PastAttemptsForm()
-    form.student.choices = [(s.id, s.name) for s in db.session.query(Students).filter(Students.isadmin == 0)]
+    form.student.choices = [(s.id, f"{s.name} {s.second_name} {s.surname}") for s in db.session.query(Students).filter(Students.isadmin == 0)]
     return render_template('past_attempts.html',
                             title='Прошлые попытки',
                             form=form)
@@ -160,10 +160,10 @@ def login():
 
     form = LoginForm()
     if request.method == "POST" and form.validate_on_submit():
-        form_name = form.name.data
+        form_login = form.login.data
         form_password = form.password.data
         form_remember = form.remember_me.data
-        user = form.validate_user(form_name, form_password)
+        user = form.validate_user(form_login, form_password)
         if user:
                 login_user(user, remember = form_remember)
                 student = Students.query.get(session['_user_id'])
@@ -209,19 +209,24 @@ def admin():
     else:
         form_reg = RegistrationForm()
         past_attempt = PastAttemptsForm()
-        past_attempt.student.choices = [(s.id, s.name) for s in db.session.query(Students).filter(Students.isadmin==0)]
+        past_attempt.student.choices = [(s.id, f"{s.name} {s.second_name} {s.surname}") for s in db.session.query(Students).filter(Students.isadmin==0)]
 
         if request.method == 'POST' and form_reg.validate_on_submit():
+
             form_name = form_reg.name.data
+            form_sec_name = form_reg.second_name.data
+            form_surname = form_reg.surname.data
+            form_login = form_reg.login.data
             form_password = form_reg.password.data
             form_password_repeat = form_reg.password_repeat.data
             if form_password == form_password_repeat:
-                form_reg.register_user(str(form_name), form_password)
+                form_reg.register_user(str(form_name),str(form_sec_name),str(form_surname),str(form_login), form_password)
                 message = 'Пользователь {} добавлен'.format(form_name)
                 return render_template('admin.html',
                                        title='Админка',
                                        message=message,
-                                       form_reg=form_reg)
+                                       form_reg=form_reg,
+                                       past_attempt=past_attempt)
         return render_template('admin.html',
                                title='Админка',
                                form_reg=form_reg,

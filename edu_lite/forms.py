@@ -12,23 +12,23 @@ def exists_user(form, field):
     """
     Username validator.
     
-    Checks if user exists in base with name.
+    Checks if user exists in base with login.
     """
 
-    user = Students.query.filter_by(name=field.data).first()
+    user = Students.query.filter_by(login=field.data).first()
     if not user:
         raise ValidationError('There is no user with name {}'.format(field.data))
 
 
 def validate_username(form, field):
     """
-    Username already in use validator.
+    Login already in use validator.
 
     Count the number of user ids for that username
     if it's not 0, there's a user with that username already.
     """
 
-    if db.session.query(db.func.count(Students.id)).filter_by(name=field.data).scalar():
+    if db.session.query(db.func.count(Students.id)).filter_by(login=field.data).scalar():
         raise ValidationError('Name already in use')
 
 
@@ -47,14 +47,14 @@ class TopicForm(FlaskForm):
 class LoginForm(FlaskForm):
     """Login form."""
 
-    name = StringField('Имя', validators=[DataRequired(), exists_user])
+    login = StringField('Логин', validators=[DataRequired(), exists_user])
     password = PasswordField('Пароль', validators=[DataRequired()])
     remember_me = BooleanField("Запомнить меня", default=False)
 
-    def validate_user(self, form_name, form_password):
+    def validate_user(self, form_login, form_password):
         """User authorization check."""
 
-        user = Students.query.filter_by(name=form_name).first()
+        user = Students.query.filter_by(login=form_login).first()
         if user:
             base_password = user.password
             if sha256_crypt.verify(form_password, base_password) == True:
@@ -66,14 +66,17 @@ class LoginForm(FlaskForm):
 class RegistrationForm(LoginForm):
     """Registration form."""
 
-    name = StringField('Имя', validators=[DataRequired(), validate_username])
+    name = StringField('Имя', validators=[DataRequired()])
+    second_name = StringField('Фамилия', validators=[DataRequired()])
+    surname = StringField('Отчество', validators=[DataRequired()])
+    login = StringField('Логин', validators=[DataRequired(), validate_username])
     password_repeat = PasswordField('Повтор пароля', validators=[DataRequired(), EqualTo('password', message='Passwords must match')])
 
-    def register_user(self, form_name, form_password):
+    def register_user(self, form_name, form_sec_name, form_surname, form_login, form_password):
         """User registration."""
 
         crypt_password = sha256_crypt.hash(form_password)
-        new_user = Students(form_name, crypt_password, 0)  
+        new_user = Students(form_name, form_sec_name, form_surname, form_login, crypt_password, 0)
         db.session.add(new_user)
         db.session.commit()
 

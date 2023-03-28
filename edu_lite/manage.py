@@ -7,16 +7,16 @@ from edu_lite import models
 def generate_expression(subtopic_id):
     if subtopic_id == '1':
         question: str
-        answer: float
+        answer: str
         a = random.randint(0,1000)
         b = random.randint(0,1000)
         c = random.randint(0,1)
         if c:
             question = f'{a} + {b}'
-            answer = a + b
+            answer = str(a + b)
         else:
             question = f'{a} - {b}'
-            answer = a - b
+            answer = str(a - b)
 
         return question,answer
     elif subtopic_id== '2':
@@ -25,12 +25,12 @@ def generate_expression(subtopic_id):
         c = random.randint(0,1)
         if c:
             question = f'{a} + {b}'
-            answer = a + b
+            answer = str(a + b)
         else:
             question = f'{a} - {b}'
-            answer = a - b
+            answer = str(a - b)
         return question, answer
-    return '0',0
+    return '0','0'
 
 def add_questions(subtopic_id):
     question, answer = generate_expression(subtopic_id)

@@ -16,6 +16,9 @@
     <p><input type="submit" value="Найти"></p>
     <p>
         {{ wtf.form_field(form_reg.name) }}<br>
+        {{ wtf.form_field(form_reg.second_name) }}<br>
+        {{ wtf.form_field(form_reg.surname) }}<br>
+        {{ wtf.form_field(form_reg.login) }}<br>
         {{ wtf.form_field(form_reg.password) }}<br>
     </p>
     <p>{{ wtf.form_field(form_reg.password_repeat) }} </p>

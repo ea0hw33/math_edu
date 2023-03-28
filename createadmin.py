@@ -2,17 +2,20 @@ from edu_lite import db, app
 from edu_lite.models import Students
 from passlib.hash import sha256_crypt
 
-name = ""
+login = ""
+name = input("Enter admin name:")
+second_name= input("Enter admin second_name:")
+surname = input("Enter admin surname:")
 raw_password = ""
 
 validate_name = False
 while validate_name == False:
-	name = input("Enter admin username:")
-	if name == '':
+	login = input("Enter admin login:")
+	if login == '':
 		print("Name can't be blank!")
-	elif ' ' in name:
+	elif ' ' in login:
 		print("Name can't contain spaces!")
-	elif len(name) < 3:
+	elif len(login) < 3:
 		print("Name is too short!")
 	else:
 		validate_name = True
@@ -30,6 +33,6 @@ while validate_password == False:
 		validate_password = True
 with app.app_context():
 	crypt_password = sha256_crypt.hash(raw_password)
-	new_user = Students(name, crypt_password, 1)
+	new_user = Students(name, second_name, surname, login, crypt_password, 1)
 	db.session.add(new_user)
 	db.session.commit()

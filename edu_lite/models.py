@@ -27,7 +27,7 @@ class Questions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     value = db.Column(db.String)
     subtopic_id = db.Column(db.Integer, db.ForeignKey("subtopics.id"))
-    answer = db.Column(db.Float)
+    answer = db.Column(db.String)
 
 
 class Attempts(db.Model):
@@ -52,7 +52,7 @@ class Results(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     attempt_id = db.Column(db.Integer, db.ForeignKey("attempts.id"))
     question_id = db.Column(db.Integer, db.ForeignKey("questions.id"))
-    fact_id = db.Column(db.Float)
+    fact_answer = db.Column(db.String)
 
 
 
@@ -62,13 +62,19 @@ class Students(db.Model):
     __tablename__ = 'students'
 
     id = db.Column(db.Integer, primary_key=True)
+    login = db.Column(db.String)
     name = db.Column(db.String)
+    second_name = db.Column(db.String)
+    surname = db.Column(db.String)
     password = db.Column(db.String)
     isadmin = db.Column(db.Integer)
 
 
-    def __init__(self, name, password, isadmin):
+    def __init__(self, name, second_name, surname, login, password, isadmin):
         self.name = name
+        self.second_name = second_name
+        self.surname = surname
+        self.login = login
         self.password = password
         self.isadmin = isadmin
         
