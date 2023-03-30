@@ -1,0 +1,26 @@
+<!-- extend base layout -->
+{% extends"bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block content %}
+
+<h2 style="text-align:center;color:purple">{{ total_result }}</h2>
+<hr>
+
+
+{% for answer in results %}
+        {% if answer[1] == answer[2] %}
+                <p style="color:green">{{ answer[0] }}</p>
+        {% else %}
+                <p style="color:red">{{ answer[0] }}</p>
+        {% endif %}
+{% endfor %}
+<hr>
+
+<div class="container">
+<a href="/topic"><p>Продолжить тестирование</p></a>
+<hr>
+<a href="/logout"><p>Закончить работу</p></a>
+</div>
+{% endblock %}

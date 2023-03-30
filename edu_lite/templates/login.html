@@ -1,0 +1,60 @@
+<style>
+	#namepass
+			{
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			-webkit-transform: translate(-50%, -50%);
+			-moz-transform: translate(-50%, -50%);
+			-ms-transform: translate(-50%, -50%);
+			-o-transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%);
+			}
+	#name, #pass
+			{
+				width: 250px;
+			}
+
+</style>
+<html>
+
+<script>
+function text(){
+const input = document.getElementById('text1');
+const value = input.value;
+alert(value)
+}
+</script>
+
+{% extends"bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+<!--{% if form.errors %}-->
+<!--{{ form.errors }}-->
+<!--{% endif %}-->
+
+{% block content %}
+
+<div class="container">
+
+	<form action="" method="POST" name="login">
+	  <div id="namepass">
+		  <h1>Вход</h1>
+				{{ form.hidden_tag() }}
+				<p>
+					<div id="name">{{ wtf.form_field(form.name) }}</div><br>
+					<div id="pass">{{ wtf.form_field(form.password) }}</div><br>
+				</p>
+				<p>
+					{{ wtf.form_field(form.remember_me) }}
+				</p>
+				<p>
+					<input type="submit" value="Войти">
+				</p>
+	  </div>
+	</form>
+</div>
+{% endblock %}
+
+
+
+</html>

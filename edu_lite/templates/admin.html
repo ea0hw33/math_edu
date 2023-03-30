@@ -1,0 +1,29 @@
+<!-- extend base layout -->
+{% extends"bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+
+<p style="color:green">{{ message }}</p>
+
+<div class="container">
+<h3>Зарегистрировать пользователя</h3>
+<form action="" method="POST" name="registration">
+    {{ form_reg.hidden_tag() }}
+    Прошлые попытки
+    <p>{{ past_attempt.student() }}</p>
+    <p>{{ past_attempt.date() }}</p>
+    <p><input type="submit" value="Найти"></p>
+    <p>
+        {{ wtf.form_field(form_reg.name) }}<br>
+        {{ wtf.form_field(form_reg.password) }}<br>
+    </p>
+    <p>{{ wtf.form_field(form_reg.password_repeat) }} </p>
+    <p><input type="submit" value="Зарегистрировать"></p>
+</form>
+</div>
+<hr>
+
+{% endblock %}
+
+
