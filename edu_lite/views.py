@@ -91,18 +91,18 @@ def attempt():
 def results():
     """Results view."""
 
-    results_list = []    
-    questions = [(q.id,q.value,q.answer) for q in Questions.query.filter_by(subtopic_id=session['subtopic_id']).all()]
-    total = 0
-    for question in questions:
-        fact_ids = [r.fact_answer for r in Results.query.filter_by(attempt_id=session['attempt_id'],
-                                                               question_id=question[0]).all()]
-
-        if question[2] in fact_ids:
-            total += 1
-        results_list.append([question[1], question[2], *fact_ids])
+    results_list = []
     count = 0
-    count = len(questions)
+    total = 0
+    for result in Results.query.filter_by(attempt_id=session['attempt_id']):
+        count+=1
+        question = Questions.query.filter_by(id=result.id).all()[0]
+        fact_ids = Results.query.filter_by(attempt_id=session['attempt_id'],
+                                                               question_id=result.question_id).all()[0]
+
+        if question.answer == fact_ids.fact_answer:
+            total += 1
+        results_list.append([question.value, question.answer, fact_ids.fact_answer])
     total_result = str(total) + '/' + str(count)
     return render_template('results.html',
                             title='Результаты',
@@ -130,10 +130,10 @@ def get_past_attempts():
 
     # topic_id = request.form['topic']
     student_id = request.form['student']
-    # topic_date = request.form['date']
+    topic_date = request.form['date']
     attempts_dict = {}
-    # topic_day = datetime.strptime(topic_date, '%Y-%m-%d')
-    # next_day = topic_day + timedelta(days=1)
+    topic_day = datetime.strptime(topic_date, '%Y-%m-%d')
+    next_day = topic_day + timedelta(days=1)
     attempts = [(a.id, a.starttime, a.endtime) for a in db.session.query(Attempts).filter(Attempts.student_id==student_id)]
     for attempt in attempts:
         attempts_dict[str(attempt[0])] = {'start': attempt[1], 'end': attempt[2]}
@@ -148,9 +148,6 @@ def logout():
 
     logout_user()
     return redirect('/login')
-
-
-
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -186,10 +183,14 @@ def registration():
     form = RegistrationForm()
     if request.method == "POST" and form.validate_on_submit():
         form_name = form.name.data
+        form_sec_name = form.second_name.data
+        form_surname = form.surname.data
+        form_login = form.login.data
         form_password = form.password.data
         form_password_repeat = form.password_repeat.data
         if form_password == form_password_repeat:
-            form.register_user(form_name, form_password)
+            form.register_user(str(form_name), str(form_sec_name), str(form_surname), str(form_login),
+                                   form_password)
             return 'User {} was added'.format(form_name)
     return render_template('registration.html',
                            title='Registration',
@@ -210,6 +211,10 @@ def admin():
         form_reg = RegistrationForm()
         past_attempt = PastAttemptsForm()
         past_attempt.student.choices = [(s.id, f"{s.name} {s.second_name} {s.surname}") for s in db.session.query(Students).filter(Students.isadmin==0)]
+
+        if request.method == 'POST' and past_attempt.validate_on_submit():
+            return render_template('past_attempts.html',title='Прошлые попытки')
+
 
         if request.method == 'POST' and form_reg.validate_on_submit():
 
