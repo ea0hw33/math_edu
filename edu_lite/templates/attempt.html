@@ -1,10 +1,18 @@
 {% extends"bootstrap/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block content %}
 <h1>{{ test_name }}</h1>
 <script type="text/javascript">
+
+function showquestions(hh, gg)
+{
+    for (let i = 1; i <= gg; i++) { // выведет 0, затем 1, затем 2
+         document.getElementById(i).style.display="none";
+    }
+    document.getElementById(hh).style.display="block";
+}
 
 function checkInputs(form){
     var questList = [];
@@ -41,22 +49,39 @@ function checkInputs(form){
 
 </script>
 
-<style> label{ max-width:95%;vertical-align:top} input{vertical-align:top}</style>
+<style>
+
+label
+    {
+        max-width:95%;
+        vertical-align:top;
+    }
+input
+    {
+        vertical-align:top;
+    }
+</style>
 
 <form id="attempt" action="" method="POST" name="answer">
-    
+
         {{ form.hidden_tag() }}
-            
             {% for item in questions %}
-                <h3>{{ item[1] }}</h3>
-                {{ form.field_answer(id=item[0]) }}
+
+            <div id="{{ loop.index }}" style="display: none;">
+                <h3  >{{ item[1] }}</h3>
+                <div >{{ form.field_answer(id=item[0]) }}</div>
+            </div>
             {% endfor %}
 
         <p>
             <input type="submit" value="Отправить">
         </p>
-    
+
 </form>
+{% for item in questions %}
+<input onclick="showquestions('{{loop.index}}', '{{ gg }}')" type="submit" value="{{loop.index}}">
+{% endfor %}
+
 
 
 {% endblock %}

@@ -4,26 +4,177 @@
 
 {% block content %}
 
+<style>
+    #zagolovok
+            {
+                position: absolute;
+                left: 50%;
+                top: 25%;
+                -webkit-transform: translate(-50%, -25%);
+                -moz-transform: translate(-50%, -25%);
+                -ms-transform: translate(-50%, -25%);
+                -o-transform: translate(-50%, -25%);
+                transform: translate(-50%, -25%);
+            }
+    #topic1
+            {
+                position: absolute;
+                left: 20%;
+                top: 40%;
+                -webkit-transform: translate(-20%, -40%);
+                -moz-transform: translate(-20%, -40%);
+                -ms-transform: translate(-20%, -40%);
+                -o-transform: translate(-20%, -40%);
+                transform: translate(-20%, -40%);
+            }
+    #topic
+            {
+                border: 2px solid black;
+                font-weight: 700;
+                font-size: 20px;
+                text-align: center;
+                width: 250px;
+                height: 50px;
+            }
+    #subtopic1
+            {
+
+                position: absolute;
+                left: 40%;
+                top: 40%;
+                -webkit-transform: translate(-40%, -40%);
+                -moz-transform: translate(-40%, -40%);
+                -ms-transform: translate(-40%, -40%);
+                -o-transform: translate(-40%, -40%);
+                transform: translate(-40%, -40%);
+            }
+    #subtopic
+            {
+                border: 2px solid black;
+                font-weight: 700;
+                font-size: 20px;
+                text-align: center;
+                width: 250px;
+                height: 50px;
+            }
+    #quantity
+            {
+
+                position: absolute;
+                left: 60%;
+                top: 40%;
+                -webkit-transform: translate(-60%, -40%);
+                -moz-transform: translate(-60%, -40%);
+                -ms-transform: translate(-60%, -40%);
+                -o-transform: translate(-60%, -40%);
+                transform: translate(-60%, -40%);
+            }
+    #num_of_questions
+            {
+                border: 2px solid black;
+                font-weight: 700;
+                font-size: 20px;
+                text-align: center;
+                width: 250px;
+                height: 50px;
+            }
+    #time1
+            {
+
+                position: absolute;
+                left: 80%;
+                top: 40%;
+                -webkit-transform: translate(-80%, -40%);
+                -moz-transform: translate(-80%, -40%);
+                -ms-transform: translate(-80%, -40%);
+                -o-transform: translate(-80%, -40%);
+                transform: translate(-80%, -40%);
+            }
+    #time
+            {
+                border: 2px solid black;
+                font-weight: 700;
+                font-size: 20px;
+                text-align: center;
+                width: 250px;
+                height: 50px;
+            }
+    #buttstart
+            {
+                background-color: #000;
+                border: none;
+                color: white;
+                width: 400px;
+                height: 70px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 36px;
+                cursor: pointer;
+
+                position: absolute;
+                left: 50%;
+                top: 55%;
+                -webkit-transform: translate(-50%, -55%);
+                -moz-transform: translate(-50%, -55%);
+                -ms-transform: translate(-50%, -55%);
+                -o-transform: translate(-50%, -55%);
+                transform: translate(-50%, -55%);
+            }
+    #nametopic,
+    #namesubtopic,
+    #namequantity,
+    #nametime
+            {
+                font-weight: 540;
+                padding-bottom: 10px;
+                font-size: 18px;
+                white-space: nowrap;
+                position: absolute;
+                left: 50%;
+                top: -25%;
+                -webkit-transform: translate(-50%, 25%);
+                -moz-transform: translate(-50%, 25%);
+                -ms-transform: translate(-50%, 25%);
+                -o-transform: translate(-50%, 25%);
+                transform: translate(-50%, 25%);
+            }
+
+
+</style>
+
 <div class="container">
-<h1>Тестирование</h1>
+        <h1 id="zagolovok">Тестирование</h1>
 
-<form action="" method="POST" name="topic">
-        <p>
-        Выбери испытание:<br>
-        {{ form.topic() }}<br>
-    </p>
-    <p>
-        Выбери подтему:<br>
-        {{ form.subtopic() }}
+        <form action="" method="POST" name="topic">
+                <div id="topic1">
+                    <div id="nametopic">Выбрать тему:</div>
+                    <br>
+                    <div id="subject">{{ form.topic() }}</div>
+                </div>
 
-    </p>
-    <p>Количество: {{  form.num_of_questions() }}</p>
-    <p>Время: {{ form.time() }} мин.</p>
-    <p>
-        <input type="submit" value="Начать">
-    </p>
-</form>
+                <div id="subtopic1">
+                     <div id="namesubtopic">Выбрать подтему:</div>
+                    <br>
+                    <div id="subsubject">{{ form.subtopic() }}</div>
+                </div>
+
+                <div id="quantity">
+                    <div id="namequantity">Количество вопросов:</div>
+                    <br>
+                    <div id="quansubject">{{  form.num_of_questions() }}</div>
+                </div>
+
+                <div id="time1">
+                    <div id="nametime">Время в минутах: </div>
+                    <br>
+                    <div id="timesubject">{{ form.time() }}</div>
+                </div>
+
+
+                    <input id="buttstart" type="submit" value="Начать">
+
+        </form>
 </div>
-<hr>
 
 {% endblock %}
