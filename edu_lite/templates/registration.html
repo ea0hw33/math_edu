@@ -3,10 +3,10 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block content %}
-<h1>Register</h1>
+<h1>Регистрация</h1>
 <div class="container">
 <form action="" method="POST" name="registration">
-    {{ form.hidden_tag() }}
+    {{ form_reg.hidden_tag() }}
     <p>
         {{ wtf.form_field(form_reg.name) }}<br>
         {{ wtf.form_field(form_reg.second_name) }}<br>
@@ -14,8 +14,8 @@
         {{ wtf.form_field(form_reg.login) }}<br>
         {{ wtf.form_field(form_reg.password) }}<br>
     </p>
-    <p>{{ wtf.form_field(form.password_repeat) }} </p>
-    <p><input type="submit" value="Register"></p>
+    <p>{{ wtf.form_field(form_reg.password_repeat) }} </p>
+    <p><input type="submit" value="Зарегистрироваться"></p>
 </form>
 </div>
 {% endblock %}

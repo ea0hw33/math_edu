@@ -4,16 +4,27 @@
 
 {% block content %}
 
+<script type="text/javascript">
+    $(document).ready ( function () {
+    $(document).on ("click", "find_past_attempts", function (e) {
+        if(e.target.type =="button")
+        {
+            url_redirect({url: "/past_attempts/results",
+                            method: "post",
+                            data: {"attempt_id": e.target.id}
+                         });
+        }
+    });
+});
+</script>
+
 <p style="color:green">{{ message }}</p>
 
 <div class="container">
 <h3>Зарегистрировать пользователя</h3>
-<form action="" method="POST" name="registration">
-    {{ form_reg.hidden_tag() }}
-    Прошлые попытки
-    <p>{{ past_attempt.student() }}</p>
-    <p>{{ past_attempt.date() }}</p>
-    <p><input type="submit" value="Найти"></p>
+    <a href="/past_attempts">Прошлые попытки</a>
+    <form action="" method="POST" name="registration">
+        {{ form_reg.hidden_tag() }}
     <p>
         {{ wtf.form_field(form_reg.name) }}<br>
         {{ wtf.form_field(form_reg.second_name) }}<br>

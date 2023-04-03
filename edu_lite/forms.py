@@ -60,7 +60,7 @@ class LoginForm(FlaskForm):
             if sha256_crypt.verify(form_password, base_password) == True:
                 return user
             else:
-                raise ValidationError('Wrong password')
+                return None
 
 
 class RegistrationForm(LoginForm):

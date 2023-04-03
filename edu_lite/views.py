@@ -18,7 +18,7 @@ def parse_data():
 
         # only need the id we grabbed in my case.
         id = request.args.keys()
-        print(id)
+        # print(id)
 
         # When returning data it has to be jsonify'ed and a list of tuples (id, value) to populate select fields.
         # Example: [('1', 'One'), ('2', 'Two'), ('3', 'Three')]
@@ -110,6 +110,7 @@ def results():
                             results=results_list)
 
 
+
 @app.route('/past_attempts')
 @login_required
 def past_attempts():
@@ -123,6 +124,30 @@ def past_attempts():
 
 
 
+@app.route('/past_attempts/results', methods=['POST'])
+@login_required
+def past_results():
+    """Results view."""
+
+    results_list = []
+    count = 0
+    total = 0
+    for result in Results.query.filter_by(attempt_id=request.form['attempt_id']):
+        count+=1
+        question = Questions.query.filter_by(id=result.id).all()[0]
+        fact_ids = Results.query.filter_by(attempt_id=request.form['attempt_id'],
+                                                               question_id=result.question_id).all()[0]
+
+        if question.answer == fact_ids.fact_answer:
+            total += 1
+        results_list.append([question.value, question.answer, fact_ids.fact_answer])
+    total_result = str(total) + '/' + str(count)
+    return render_template('past_results.html',
+                            title='Результаты',
+                            total_result=total_result,
+                            results=results_list)
+
+
 @app.route('/get_past_attempts', methods=['POST'])
 @login_required
 def get_past_attempts():
@@ -130,14 +155,19 @@ def get_past_attempts():
 
     # topic_id = request.form['topic']
     student_id = request.form['student']
-    topic_date = request.form['date']
+    # topic_date = request.form['date']
     attempts_dict = {}
-    topic_day = datetime.strptime(topic_date, '%Y-%m-%d')
-    next_day = topic_day + timedelta(days=1)
-    attempts = [(a.id, a.starttime, a.endtime) for a in db.session.query(Attempts).filter(Attempts.student_id==student_id)]
+    # topic_day = datetime.strptime(topic_date, '%Y-%m-%d')
+    # next_day = topic_day + timedelta(days=1)
+    attempts = [(a.id, a.starttime, a.endtime,a.topic_id,a.subtopic_id) for a in db.session.query(Attempts).filter(Attempts.student_id==student_id)]
     for attempt in attempts:
-        attempts_dict[str(attempt[0])] = {'start': attempt[1], 'end': attempt[2]}
-    print(attempts_dict)
+        topic = [t.name for t in db.session.query(Topics).filter(Topics.id == attempt[3])]
+        subtopic = [st.name for st in db.session.query(Subtopics).filter(Subtopics.id == attempt[4])]
+        results = [(r.question_id,r.fact_answer) for r in db.session.query(Results).filter(Results.attempt_id == attempt[0])]
+
+        attempts_dict[str(attempt[0])] = {'id': attempt[0], 'start': attempt[1], 'end': attempt[2],'topic':topic,'subtopic':subtopic}
+
+    # print(attempts_dict)
     return jsonify(attempts_dict)
 
 
@@ -168,6 +198,8 @@ def login():
                     return redirect('/admin')
                 else:
                     return redirect('/topic')
+        else:
+            return "Wrong password"
     return render_template('login.html',
                            title='Вход',
                            form=form)
@@ -176,7 +208,6 @@ def login():
 
 
 @app.route('/registration', methods=['GET', 'POST'])
-@login_required
 def registration():
     """Registration view."""
 
@@ -194,7 +225,7 @@ def registration():
             return 'User {} was added'.format(form_name)
     return render_template('registration.html',
                            title='Registration',
-                           form=form)
+                           form_reg=form)
 
 
 
@@ -209,11 +240,8 @@ def admin():
         return "Access denied!!!"
     else:
         form_reg = RegistrationForm()
-        past_attempt = PastAttemptsForm()
-        past_attempt.student.choices = [(s.id, f"{s.name} {s.second_name} {s.surname}") for s in db.session.query(Students).filter(Students.isadmin==0)]
-
-        if request.method == 'POST' and past_attempt.validate_on_submit():
-            return render_template('past_attempts.html',title='Прошлые попытки')
+        # past_attempt = PastAttemptsForm()
+        # past_attempt.student.choices = [(s.id, f"{s.name} {s.second_name} {s.surname}") for s in db.session.query(Students).filter(Students.isadmin==0)]
 
 
         if request.method == 'POST' and form_reg.validate_on_submit():
@@ -230,10 +258,8 @@ def admin():
                 return render_template('admin.html',
                                        title='Админка',
                                        message=message,
-                                       form_reg=form_reg,
-                                       past_attempt=past_attempt)
+                                       form_reg=form_reg)
         return render_template('admin.html',
                                title='Админка',
-                               form_reg=form_reg,
-                               past_attempt=past_attempt)
+                               form_reg=form_reg)
         
