@@ -43,7 +43,7 @@ def topic():
         session['starttime'] = datetime.now()
         num_of_questions = session['num_of_questions']
         for _ in range(num_of_questions):
-            add_questions(session['subtopic_id'])
+            add_questions(session['topic_id'],session['subtopic_id'])
         attempt = Attempts(student_id=session['_user_id'],
                            starttime=session['starttime'],
                            topic_id=session['topic_id'],
@@ -114,7 +114,9 @@ def results():
 @app.route('/past_attempts')
 @login_required
 def past_attempts():
-    """Past attempts view."""
+    student = Students.query.get(session['_user_id'])
+    if student.isadmin != 1:
+        return "Access denied!!!"
 
     form = PastAttemptsForm()
     form.student.choices = [(s.id, f"{s.name} {s.second_name} {s.surname}") for s in db.session.query(Students).filter(Students.isadmin == 0)]
@@ -127,7 +129,9 @@ def past_attempts():
 @app.route('/past_attempts/results', methods=['POST'])
 @login_required
 def past_results():
-    """Results view."""
+    student = Students.query.get(session['_user_id'])
+    if student.isadmin != 1:
+        return "Access denied!!!"
 
     results_list = []
     count = 0
@@ -152,7 +156,6 @@ def past_results():
 @login_required
 def get_past_attempts():
     """Util view for AJAX load of past attempts."""
-
     # topic_id = request.form['topic']
     student_id = request.form['student']
     # topic_date = request.form['date']
@@ -222,11 +225,10 @@ def registration():
         if form_password == form_password_repeat:
             form.register_user(str(form_name), str(form_sec_name), str(form_surname), str(form_login),
                                    form_password)
-            return 'User {} was added'.format(form_name)
+            return redirect('/login')
     return render_template('registration.html',
                            title='Registration',
                            form_reg=form)
-
 
 
 
