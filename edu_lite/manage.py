@@ -9,7 +9,7 @@ class Manage():
 
     @staticmethod
     def generate_expression(topicId, subtopicId):
-        print(topicId,subtopicId)
+        # print(topicId,subtopicId)
         match topicId:
             case 1:
                 return Manage.integers(subtopicId)
@@ -157,5 +157,6 @@ class Manage():
 def add_questions(topicId,subtopicId):
     # print(Manage.generate_expression(int(topicId),int(subtopicId)))
     question, answer = Manage.generate_expression(int(topicId),int(subtopicId))
+    print(question,answer)
     db.session.add(models.Questions(value=question, subtopic_id=subtopicId, answer=answer))
     db.session.commit()

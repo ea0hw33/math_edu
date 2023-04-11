@@ -32,9 +32,11 @@ def topic():
 
     topics = [(t.id,t.name) for t in Topics.query.all()]
     subtopics = [(st.id,st.name) for st in Subtopics.query.all()]
+
     form = TopicForm()
     form.topic.choices = topics
     form.subtopic.choices = subtopics
+    subtopics = [(st.id, st.name,st.topic_id) for st in Subtopics.query.all()]
     if request.method == "POST":
         session['topic_id'] = form.topic.data
         session['subtopic_id'] = form.subtopic.data
@@ -48,11 +50,13 @@ def topic():
                            starttime=session['starttime'],
                            topic_id=session['topic_id'],
                            subtopic_id= session['subtopic_id'])
+        print(attempt.id)
         db.session.add(attempt)
         db.session.commit()
         return redirect('/topic/attempt')
     return render_template('topic.html',
                            title='Тесты',
+                           subtopics=subtopics,
                            form=form)
 
 
@@ -65,10 +69,12 @@ def attempt():
 
     form = AttemptForm()
     questions = [(q.id,q.value) for q in Questions.query.filter_by(subtopic_id=session['subtopic_id']).all()][-session['num_of_questions']:]
+    print([(q.id,q.value, q.answer) for q in Questions.query.filter_by(subtopic_id=session['subtopic_id']).all()][-session['num_of_questions']:])
     if request.method == "POST":
         attempt = Attempts.query.order_by(Attempts.starttime.desc()).filter_by(student_id=session['_user_id'],
                                             topic_id=session['topic_id'],
                                            subtopic_id=session['subtopic_id']).first()
+        print(attempt.id)
         session['attempt_id'] = attempt.id
         for question,field in zip(questions,request.values.dicts[1].getlist('field_answer')):
                 results = Results(attempt_id=attempt.id,
@@ -94,15 +100,17 @@ def results():
     results_list = []
     count = 0
     total = 0
+    print(session['attempt_id'])
     for result in Results.query.filter_by(attempt_id=session['attempt_id']):
         count+=1
-        question = Questions.query.filter_by(id=result.id).all()[0]
+        question = Questions.query.filter_by(id=result.question_id).all()[0]
         fact_ids = Results.query.filter_by(attempt_id=session['attempt_id'],
                                                                question_id=result.question_id).all()[0]
 
         if question.answer == fact_ids.fact_answer:
             total += 1
         results_list.append([question.value, question.answer, fact_ids.fact_answer])
+        print(question.id,question.value,question.answer)
     total_result = str(total) + '/' + str(count)
     return render_template('results.html',
                             title='Результаты',
@@ -138,7 +146,7 @@ def past_results():
     total = 0
     for result in Results.query.filter_by(attempt_id=request.form['attempt_id']):
         count+=1
-        question = Questions.query.filter_by(id=result.id).all()[0]
+        question = Questions.query.filter_by(id=result.question_id).all()[0]
         fact_ids = Results.query.filter_by(attempt_id=request.form['attempt_id'],
                                                                question_id=result.question_id).all()[0]
 
