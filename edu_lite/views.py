@@ -50,7 +50,7 @@ def topic():
                            starttime=session['starttime'],
                            topic_id=session['topic_id'],
                            subtopic_id= session['subtopic_id'])
-        print(attempt.id)
+
         db.session.add(attempt)
         db.session.commit()
         return redirect('/topic/attempt')
@@ -69,12 +69,10 @@ def attempt():
 
     form = AttemptForm()
     questions = [(q.id,q.value) for q in Questions.query.filter_by(subtopic_id=session['subtopic_id']).all()][-session['num_of_questions']:]
-    print([(q.id,q.value, q.answer) for q in Questions.query.filter_by(subtopic_id=session['subtopic_id']).all()][-session['num_of_questions']:])
     if request.method == "POST":
         attempt = Attempts.query.order_by(Attempts.starttime.desc()).filter_by(student_id=session['_user_id'],
                                             topic_id=session['topic_id'],
                                            subtopic_id=session['subtopic_id']).first()
-        print(attempt.id)
         session['attempt_id'] = attempt.id
         for question,field in zip(questions,request.values.dicts[1].getlist('field_answer')):
                 results = Results(attempt_id=attempt.id,
@@ -100,7 +98,6 @@ def results():
     results_list = []
     count = 0
     total = 0
-    print(session['attempt_id'])
     for result in Results.query.filter_by(attempt_id=session['attempt_id']):
         count+=1
         question = Questions.query.filter_by(id=result.question_id).all()[0]
@@ -110,7 +107,6 @@ def results():
         if question.answer == fact_ids.fact_answer:
             total += 1
         results_list.append([question.value, question.answer, fact_ids.fact_answer])
-        print(question.id,question.value,question.answer)
     total_result = str(total) + '/' + str(count)
     return render_template('results.html',
                             title='Результаты',
@@ -178,7 +174,6 @@ def get_past_attempts():
 
         attempts_dict[str(attempt[0])] = {'id': attempt[0], 'start': attempt[1], 'end': attempt[2],'topic':topic,'subtopic':subtopic}
 
-    # print(attempts_dict)
     return jsonify(attempts_dict)
 
 
@@ -250,9 +245,6 @@ def admin():
         return "Access denied!!!"
     else:
         form_reg = RegistrationForm()
-        # past_attempt = PastAttemptsForm()
-        # past_attempt.student.choices = [(s.id, f"{s.name} {s.second_name} {s.surname}") for s in db.session.query(Students).filter(Students.isadmin==0)]
-
 
         if request.method == 'POST' and form_reg.validate_on_submit():
 

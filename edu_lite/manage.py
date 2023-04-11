@@ -155,8 +155,6 @@ class Manage():
         return question, str(answer)
 
 def add_questions(topicId,subtopicId):
-    # print(Manage.generate_expression(int(topicId),int(subtopicId)))
     question, answer = Manage.generate_expression(int(topicId),int(subtopicId))
-    print(question,answer)
     db.session.add(models.Questions(value=question, subtopic_id=subtopicId, answer=answer))
     db.session.commit()
