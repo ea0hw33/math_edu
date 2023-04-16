@@ -30,7 +30,10 @@ def parse_data():
 def topic():
     """topic view."""
 
-    topics = [(t.id,t.name) for t in Topics.query.all()]
+    topics = [
+        (','.join(str([st.id for st in Subtopics.query.filter_by(topic_id=t.id).all()])[1:-1].split(', ')), t.name) for
+        t in
+        Topics.query.all()]
     subtopics = [(st.id,st.name) for st in Subtopics.query.all()]
 
     form = TopicForm()

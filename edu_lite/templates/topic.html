@@ -143,6 +143,24 @@
 
 </style>
 
+<script src="/script/snippet-javascript-console.min.js?v=1"></script>
+
+<script type="text/javascript">
+
+const subtopic = document.getElementById('subtopic');
+const subtopicOpts = [...subtopic.children];
+
+document.getElementById('topic').addEventListener(
+  'change',
+  (e) => {
+    subtopic.innerHTML = subtopicOpts.filter(
+      o => e.target.value.includes(o.value)
+    ).map(o => o.outerHTML).join('')
+  })
+
+  alert(asdasda);
+</script>
+
 <div class="container">
         <h1 id="zagolovok">Тестирование</h1>
 

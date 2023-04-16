@@ -1,21 +1,56 @@
+
+<style>
+	#namepass
+			{
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			-webkit-transform: translate(-50%, -50%);
+			-moz-transform: translate(-50%, -50%);
+			-ms-transform: translate(-50%, -50%);
+			-o-transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%);
+			width: 250px;
+			}
+	#name, #secondname, #surname, #log, #pass, #passrepaet
+			{
+				width: 250px;
+			}
+	#reg
+		{
+			position: absolute;
+			left: 52.9%;
+			top: 65.4%;
+			-webkit-transform: translate(-52.9%, -65.4%);
+			-moz-transform: translate(-52.9%, -65.4%);
+			-ms-transform: translate(-52.9%, -65.4%);
+			-o-transform: translate(-52.9%, -65.4%);
+			transform: translate(-52.9%, -65.4%);
+
+		}
+
+</style>
 <!-- extend base layout -->
 {% extends"bootstrap/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block content %}
-<h1>Регистрация</h1>
+
 <div class="container">
 <form action="" method="POST" name="registration">
     {{ form_reg.hidden_tag() }}
+<div id="namepass">
+    <h1>Регистрация</h1>
     <p>
-        {{ wtf.form_field(form_reg.name) }}<br>
-        {{ wtf.form_field(form_reg.second_name) }}<br>
-        {{ wtf.form_field(form_reg.surname) }}<br>
-        {{ wtf.form_field(form_reg.login) }}<br>
-        {{ wtf.form_field(form_reg.password) }}<br>
+        <div id="name">{{ wtf.form_field(form_reg.name) }}<br></div>
+        <div id="secondname">{{ wtf.form_field(form_reg.second_name) }}<br></div>
+        <div id="surname">{{ wtf.form_field(form_reg.surname) }}<br></div>
+        <div id="log">{{ wtf.form_field(form_reg.login) }}<br></div>
+        <div id="pass">{{ wtf.form_field(form_reg.password) }}<br></div>
     </p>
-    <p>{{ wtf.form_field(form_reg.password_repeat) }} </p>
+    <p><div id="passrepaet">{{ wtf.form_field(form_reg.password_repeat) }}</div> </p>
     <p><input type="submit" value="Зарегистрироваться"></p>
+</div>
 </form>
 </div>
 {% endblock %}

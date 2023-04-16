@@ -4,7 +4,15 @@
 
 {% block content %}
 <h1>{{ test_name }}</h1>
+
 <script type="text/javascript">
+
+function codeAddress()
+        {
+            document.getElementById(1).style.display="block";
+        }
+        window.onload = codeAddress;
+
 
 function showquestions(hh, questions)
 {
@@ -13,6 +21,53 @@ function showquestions(hh, questions)
     }
     document.getElementById(hh).style.display="block";
 }
+
+function buttright(questions)
+{
+    for (let i = 1; i <= questions; i++) {
+
+        if(document.getElementById(i).style.display == 'block')
+                    {
+                        let yy = i;
+                        document.getElementById(i).style.display="none";
+
+                        yy = Number(yy) + 1;
+                        if (yy > questions)
+                        {
+                            yy = questions;
+                        }
+                        document.getElementById(yy).style.display="block";
+                        break;
+                    }
+
+    }
+}
+
+
+
+
+function buttleft(questions)
+{
+
+    for (let i = 1; i <= questions; i++) {
+
+        if(document.getElementById(i).style.display == 'block')
+                    {
+                        let yy = i;
+                        document.getElementById(i).style.display="none";
+
+                        yy = Number(yy) - 1;
+                        if (yy == 0)
+                        {
+                            yy = 1;
+                        }
+                        document.getElementById(yy).style.display="block";
+                        break;
+                    }
+
+    }
+}
+
 
 function checkInputs(form){
     var questList = [];
@@ -158,7 +213,41 @@ input
                 -o-transform: translate(-50%, -50%);
                 transform: translate(-50%, -50%);
         }
+
+
+
+
+#buttleft
+        {
+
+            position: absolute;
+            left: 10%;
+            top: 90%;
+            -webkit-transform: translate(-10%, -90%);
+            -moz-transform: translate(-10%, -90%);
+            -ms-transform: translate(-10%, -90%);
+            -o-transform: translate(-10%, -90%);
+            transform: translate(-10%, -90%);
+        }
+
+#buttright
+{
+    position: absolute;
+    left: 90%;
+    top: 90%;
+    -webkit-transform: translate(-90%, -90%);
+    -moz-transform: translate(-90%, -90%);
+    -ms-transform: translate(-90%, -90%);
+    -o-transform: translate(-90%, -90%);
+    transform: translate(-90%, -90%);
+}
+
+
+
+
 </style>
+
+
 <div id="content">
 
                     <div id="buttqnumb">
@@ -180,22 +269,57 @@ input
                     </div>
 
                     <div id="questions">
-                                    <form id="attempt" action="" method="POST" name="answer">
 
-                                                    {{ form.hidden_tag() }}
-                                                        {% for item in questions %}
+                                            <input
+                                                    id="buttleft"
+                                            style="
+                                            background-color: #000;
+                                            border: none;
+                                            color: white;
+                                            width: 50px;
+                                            height: 50px;
+                                            text-align: center;
+                                            text-decoration: none;
+                                            display: inline-block;
+                                            font-size: 12px;
+                                            cursor: pointer;"
+                                            onclick="buttleft('{{ questions|length }}')" type="submit" value="ᐊ">
 
-                                                        <div id="{{ loop.index }}" style="display: none;">
-                                                            <div id="namequestions"> {{ item[1] }} </div>
-                                                            <div id="formquestions" >{{ form.field_answer(id=item[0]) }}</div>
-                                                        </div>
-
-                                                        {% endfor %}
-
-                                        <input id="buttq" type="submit" value="Отправить">
 
 
-                                    </form>
+                                                        <form id="attempt" action="" method="POST" name="answer">
+
+                                                                        {{ form.hidden_tag() }}
+                                                                            {% for item in questions %}
+
+                                                                            <div id="{{ loop.index }}" style="display: none;">
+                                                                                <div id="namequestions"> {{ item[1] }} </div>
+                                                                                <div id="formquestions" >{{ form.field_answer(id=item[0]) }}</div>
+                                                                            </div>
+
+                                                                            {% endfor %}
+
+                                                            <input id="buttq" type="submit" value="Отправить">
+                                                        </form>
+
+
+
+
+                                            <input
+                                                    id="buttright"
+                                            style="
+                                            background-color: #000;
+                                            border: none;
+                                            color: white;
+                                            width: 50px;
+                                            height: 50px;
+                                            text-align: center;
+                                            text-decoration: none;
+                                            display: inline-block;
+                                            font-size: 12px;
+                                            cursor: pointer;"
+                                            onclick="buttright('{{ questions|length }}')" type="submit" value="ᐅ">
+
                     </div>
 </div>
 
