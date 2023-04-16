@@ -171,7 +171,7 @@
                 </div>
 
                 <div id="time1">
-                    <div id="nametime">Время в минутах: </div>
+                    <div id="nametime">Время в секундах: </div>
                     <br>
                     <div id="timesubject">{{ form.time() }}</div>
                 </div>
@@ -191,11 +191,26 @@
                   'change',
                   (e) => {
                     subtopic.innerHTML = subtopicOpts.filter(
-                      o => e.target.value.includes(o.value)
-                    ).map(o => o.outerHTML).join('')
+                      o => JSON.parse("[" + e.target.value + "]").includes(Number(o.value))
+                    ).map(o => o.outerHTML).join('  ')
                   })
+                document.getElementById('topic').getElementsByTagName('option')[1].selected = 'selected'
 
-                  alert(asdasda);
+                function codeAddress()
+                {
+                    var selEl = document.getElementById("topic");
+                        selEl.options[0].selected = true;
+                        if ("createEvent" in document) {
+                            var evt = document.createEvent("HTMLEvents");
+                            evt.initEvent("change", false, true);
+                            selEl.dispatchEvent(evt);
+                        }
+                        else
+                            selEl.fireEvent("onchange");
+                }
+                window.onload = codeAddress;
+
+
         </script>
 </body>
 </html>
