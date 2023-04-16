@@ -11,11 +11,11 @@ class Manage():
     def generate_expression(topicId, subtopicId):
         # print(topicId,subtopicId)
         match topicId:
-            case 1:
+            case '1,2,3,4,5':
                 return Manage.integers(subtopicId)
-            case 2:
+            case '6,7,8,9,10':
                 return Manage.wholeNumbers(subtopicId)
-            case 3:
+            case '11,12,13,14,15':
                 return Manage.decimalNumbers(subtopicId)
 
     @staticmethod
@@ -155,6 +155,6 @@ class Manage():
         return question, str(answer)
 
 def add_questions(topicId,subtopicId):
-    question, answer = Manage.generate_expression(int(topicId),int(subtopicId))
+    question, answer = Manage.generate_expression(topicId,int(subtopicId))
     db.session.add(models.Questions(value=question, subtopic_id=subtopicId, answer=answer))
     db.session.commit()
