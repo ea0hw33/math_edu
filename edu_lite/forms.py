@@ -83,7 +83,7 @@ class RegistrationForm(LoginForm):
 class AttemptForm(FlaskForm):
     """Form for pass atempt."""
 
-    field_answer = StringField('field_answer', validators = [DataRequired()])
+    field_answer = StringField('field_answer')
     def add_field(self, question_id):
         self.field_answer.id = question_id
         self.field_answer.name= str(question_id)

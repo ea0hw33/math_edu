@@ -1,5 +1,3 @@
-import re
-import os
 from datetime import datetime, timedelta, date
 from passlib.hash import sha256_crypt
 
@@ -46,6 +44,8 @@ def topic():
         session['time'] = int(form.time.data)
         session['num_of_questions'] = int(form.num_of_questions.data)
         session['starttime'] = datetime.now()
+        session['endtime'] = int(session['starttime'].timestamp())+session['time']
+
         num_of_questions = session['num_of_questions']
         for _ in range(num_of_questions):
             add_questions(session['topic_id'],session['subtopic_id'])
@@ -70,6 +70,7 @@ def topic():
 def attempt():
     """Attempt view."""
 
+
     form = AttemptForm()
     questions = [(q.id,q.value) for q in Questions.query.filter_by(subtopic_id=session['subtopic_id']).all()][-session['num_of_questions']:]
     if request.method == "POST":
@@ -77,6 +78,7 @@ def attempt():
                                             topic_id=session['topic_id'],
                                            subtopic_id=session['subtopic_id']).first()
         session['attempt_id'] = attempt.id
+
         for question,field in zip(questions,request.values.dicts[1].getlist('field_answer')):
                 results = Results(attempt_id=attempt.id,
                                   question_id=question[0],
@@ -89,7 +91,8 @@ def attempt():
     return render_template('attempt.html',
                             title='Тестирование',
                             form=form,
-                            questions=questions)
+                            questions=questions,
+                            endtime=session['endtime'])
 
 
 

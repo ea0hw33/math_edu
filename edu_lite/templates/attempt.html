@@ -68,6 +68,12 @@ function buttleft(questions)
     }
 }
 
+function timeNow(){
+
+ var time = Number(Date.now())
+ return time
+
+}
 
 function checkInputs(form){
     var questList = [];
@@ -288,7 +294,6 @@ input
 
 
                                                         <form id="attempt" action="" method="POST" name="answer">
-
                                                                         {{ form.hidden_tag() }}
                                                                             {% for item in questions %}
 
@@ -298,6 +303,8 @@ input
                                                                             </div>
 
                                                                             {% endfor %}
+                                                                            {{ endtime }}
+
 
                                                             <input id="buttq" type="submit" value="Отправить">
                                                         </form>
