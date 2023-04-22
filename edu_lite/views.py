@@ -27,7 +27,6 @@ def parse_data():
 @login_required
 def topic():
     """topic view."""
-
     topics = [
         (','.join(str([st.id for st in Subtopics.query.filter_by(topic_id=t.id).all()])[1:-1].split(', ')), t.name) for
         t in
@@ -39,23 +38,30 @@ def topic():
     form.subtopic.choices = subtopics
     subtopics = [(st.id, st.name,st.topic_id) for st in Subtopics.query.all()]
     if request.method == "POST":
+        if 'attempt_id' in session:
+            del session['attempt_id']
         session['topic_id'] = form.topic.data
         session['subtopic_id'] = form.subtopic.data
         session['time'] = int(form.time.data)
         session['num_of_questions'] = int(form.num_of_questions.data)
-        session['starttime'] = datetime.now()
-        session['endtime'] = int(session['starttime'].timestamp())+session['time']
 
         num_of_questions = session['num_of_questions']
-        for _ in range(num_of_questions):
+        if not 1<=num_of_questions<=30:
+            return 'Недопустимое количестов вопросов! (от 1 до 30)'
+        if not 1<=session['time']<=10000:
+            return 'Недопустимое время! (от 1 до 10000)'
+
+        for _ in range(num_of_questions) :
             add_questions(session['topic_id'],session['subtopic_id'])
         attempt = Attempts(student_id=session['_user_id'],
-                           starttime=session['starttime'],
+                           starttime=datetime.now(),
                            topic_id=session['topic_id'],
                            subtopic_id= session['subtopic_id'])
 
         db.session.add(attempt)
         db.session.commit()
+        session['starttime'] = datetime.now()
+        session['endtime'] = int(session['starttime'].timestamp())+session['time']+5
         return redirect('/topic/attempt')
     return render_template('topic.html',
                            title='Тесты',
@@ -70,7 +76,8 @@ def topic():
 def attempt():
     """Attempt view."""
 
-
+    if 'attempt_id' in session:
+        return 'not available'
     form = AttemptForm()
     questions = [(q.id,q.value) for q in Questions.query.filter_by(subtopic_id=session['subtopic_id']).all()][-session['num_of_questions']:]
     if request.method == "POST":
@@ -175,6 +182,8 @@ def get_past_attempts():
     attempts = [(a.id, a.starttime, a.endtime,a.topic_id,a.subtopic_id) for a in db.session.query(Attempts).filter(Attempts.student_id==student_id)]
     for attempt in attempts:
         topic = [t.name for t in db.session.query(Topics).filter(Topics.id == attempt[3])]
+        print(topic)
+        print(attempt[3])
         subtopic = [st.name for st in db.session.query(Subtopics).filter(Subtopics.id == attempt[4])]
         results = [(r.question_id,r.fact_answer) for r in db.session.query(Results).filter(Results.attempt_id == attempt[0])]
 

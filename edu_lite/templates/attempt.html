@@ -68,13 +68,6 @@ function buttleft(questions)
     }
 }
 
-function timeNow(){
-
- var time = Number(Date.now())
- return time
-
-}
-
 function checkInputs(form){
     var questList = [];
     var answList = [];
@@ -107,6 +100,24 @@ function checkInputs(form){
         return true;
     }
 }
+
+alertFunction = () => {
+  document.getElementById("buttq").click();
+}
+
+var endtime = 1
+
+timer = () => {
+    document.getElementById("timer").innerHTML = parseInt(endtime - Number(Date.now())/1000) + ' c.';
+
+}
+
+window.onload = function() {
+   endtime = Number(document.getElementById("endtime").innerHTML);
+   setTimeout(alertFunction, (endtime-Number(Date.now())/1000)*1000);
+   setInterval(timer, 100)
+  }
+
 
 </script>
 
@@ -303,7 +314,8 @@ input
                                                                             </div>
 
                                                                             {% endfor %}
-                                                                            {{ endtime }}
+                                                            <div id="endtime" hidden>{{ endtime }}</div>
+                                                            <div id="timer">0</div>
 
 
                                                             <input id="buttq" type="submit" value="Отправить">
