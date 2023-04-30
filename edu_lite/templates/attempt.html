@@ -7,6 +7,24 @@
 
 <script type="text/javascript">
 
+document.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        var hangoutButton = document.getElementById("buttright");
+        hangoutButton.click();
+    }
+});
+
+document.onkeydown = function (event)
+{
+console.log(event);
+
+if(event.code == 'ArrowRight')
+                        {
+                        document.getElementById("buttright").onclick = function() {buttright(questions)};
+                        }
+
+}
+
 function codeAddress()
         {
             document.getElementById(1).style.display="block";
@@ -148,12 +166,12 @@ input
 
                 position: absolute;
                 left: 50%;
-                top: 90%;
-                -webkit-transform: translate(-50%, -90%);
-                -moz-transform: translate(-50%, -90%);
-                -ms-transform: translate(-50%, -90%);
-                -o-transform: translate(-50%, -90%);
-                transform: translate(-50%, -90%);
+                top: 70%;
+                -webkit-transform: translate(-50%, -70%);
+                -moz-transform: translate(-50%, -70%);
+                -ms-transform: translate(-50%, -70%);
+                -o-transform: translate(-50%, -70%);
+                transform: translate(-50%, -70%);
         }
 
 #contentbutt
@@ -164,17 +182,26 @@ input
         }
 #buttqnumb
         {
-
-
-
+                border: 1px solid black;
+                width: 800px;
+                height: 75px;
                 position: absolute;
                 left: 50%;
-                top: 20%;
-                -webkit-transform: translate(-50%, -20%);
-                -moz-transform: translate(-50%, -20%);
-                -ms-transform: translate(-50%, -20%);
-                -o-transform: translate(-50%, -20%);
-                transform: translate(-50%, -20%);
+                top: 10%;
+                -webkit-transform: translate(-50%, -10%);
+                -moz-transform: translate(-50%, -10%);
+                -ms-transform: translate(-50%, -10%);
+                -o-transform: translate(-50%, -10%);
+                transform: translate(-50%, -10%);
+
+
+
+        }
+#buttqnummb
+        {
+            padding:5px;
+            text-align: center;
+
         }
 #namequestions
             {
@@ -184,29 +211,29 @@ input
 
                 position: absolute;
                 left: 50%;
-                top: 30%;
-                -webkit-transform: translate(-50%, -30%);
-                -moz-transform: translate(-50%, -30%);
-                -ms-transform: translate(-50%, -30%);
-                -o-transform: translate(-50%, -30%);
-                transform: translate(-50%, -30%);
+                top: 20%;
+                -webkit-transform: translate(-50%, -20%);
+                -moz-transform: translate(-50%, -20%);
+                -ms-transform: translate(-50%, -20%);
+                -o-transform: translate(-50%, -20%);
+                transform: translate(-50%, -20%);
             }
 #formquestions
             {
 
                 position: absolute;
                 left: 50%;
-                top: 50%;
-                -webkit-transform: translate(-50%, -50%);
-                -moz-transform: translate(-50%, -50%);
-                -ms-transform: translate(-50%, -50%);
-                -o-transform: translate(-50%, -50%);
-                transform: translate(-50%, -50%);
+                top: 40%;
+                -webkit-transform: translate(-50%, -40%);
+                -moz-transform: translate(-50%, -40%);
+                -ms-transform: translate(-50%, -40%);
+                -o-transform: translate(-50%, -40%);
+                transform: translate(-50%, -40%);
             }
 #content
         {
-                width: 1000px;
-                height: 600px;
+                width: 800px;
+                height: 650px;
                 position: absolute;
                 left: 50%;
                 top: 50%;
@@ -220,7 +247,7 @@ input
         {
                 border: 1px solid black;
                 width: 800px;
-                height: 300px;
+                height: 350px;
                 position: absolute;
                 left: 50%;
                 top: 50%;
@@ -239,35 +266,1365 @@ input
 
             position: absolute;
             left: 10%;
-            top: 90%;
-            -webkit-transform: translate(-10%, -90%);
-            -moz-transform: translate(-10%, -90%);
-            -ms-transform: translate(-10%, -90%);
-            -o-transform: translate(-10%, -90%);
-            transform: translate(-10%, -90%);
+            top: 70%;
+            -webkit-transform: translate(-10%, -70%);
+            -moz-transform: translate(-10%, -70%);
+            -ms-transform: translate(-10%, -70%);
+            -o-transform: translate(-10%, -70%);
+            transform: translate(-10%, -70%);
         }
 
 #buttright
 {
     position: absolute;
     left: 90%;
-    top: 90%;
-    -webkit-transform: translate(-90%, -90%);
-    -moz-transform: translate(-90%, -90%);
-    -ms-transform: translate(-90%, -90%);
-    -o-transform: translate(-90%, -90%);
-    transform: translate(-90%, -90%);
+    top: 70%;
+    -webkit-transform: translate(-90%, -70%);
+    -moz-transform: translate(-90%, -70%);
+    -ms-transform: translate(-90%, -70%);
+    -o-transform: translate(-90%, -70%);
+    transform: translate(-90%, -70%);
 }
+#timer, #endtimer
+{
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+
+    position: absolute;
+    left: 50%;
+    top: 90%;
+    -webkit-transform: translate(-50%, -90%);
+    -moz-transform: translate(-50%, -90%);
+    -ms-transform: translate(-50%, -90%);
+    -o-transform: translate(-50%, -90%);
+    transform: translate(-50%, -90%);
+
+
+}
+@media screen and (max-width: 1750px)
+{
+label
+    {
+        max-width:95%;
+        vertical-align:top;
+    }
+input
+    {
+        vertical-align:top;
+    }
+
+#buttq
+        {
+                background-color: #000;
+                border: none;
+                color: white;
+                width: 300px;
+                height: 50px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 30px;
+                cursor: pointer;
+
+                position: absolute;
+                left: 50%;
+                top: 70%;
+                -webkit-transform: translate(-50%, -70%);
+                -moz-transform: translate(-50%, -70%);
+                -ms-transform: translate(-50%, -70%);
+                -o-transform: translate(-50%, -70%);
+                transform: translate(-50%, -70%);
+        }
+
+#contentbutt
+        {
+                border: 1px solid black;
+                width: 1000px;
+                height: 70px;
+        }
+#buttqnumb
+        {
+                border: 1px solid black;
+                width: 800px;
+                height: 75px;
+                position: absolute;
+                left: 50%;
+                top: 10%;
+                -webkit-transform: translate(-50%, -10%);
+                -moz-transform: translate(-50%, -10%);
+                -ms-transform: translate(-50%, -10%);
+                -o-transform: translate(-50%, -10%);
+                transform: translate(-50%, -10%);
 
 
 
+        }
+#buttqnummb
+        {
+            padding:5px;
+            text-align: center;
+
+        }
+#namequestions
+            {
+                text-decoration: none;
+                display: inline-block;
+                font-size: 26px;
+
+                position: absolute;
+                left: 50%;
+                top: 20%;
+                -webkit-transform: translate(-50%, -20%);
+                -moz-transform: translate(-50%, -20%);
+                -ms-transform: translate(-50%, -20%);
+                -o-transform: translate(-50%, -20%);
+                transform: translate(-50%, -20%);
+            }
+#formquestions
+            {
+
+                position: absolute;
+                left: 50%;
+                top: 40%;
+                -webkit-transform: translate(-50%, -40%);
+                -moz-transform: translate(-50%, -40%);
+                -ms-transform: translate(-50%, -40%);
+                -o-transform: translate(-50%, -40%);
+                transform: translate(-50%, -40%);
+            }
+#content
+        {
+                width: 800px;
+                height: 650px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                -moz-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                -o-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+        }
+#questions
+        {
+                border: 1px solid black;
+                width: 800px;
+                height: 350px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                -moz-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                -o-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+        }
+
+
+
+
+#buttleft
+        {
+
+            position: absolute;
+            left: 10%;
+            top: 70%;
+            -webkit-transform: translate(-10%, -70%);
+            -moz-transform: translate(-10%, -70%);
+            -ms-transform: translate(-10%, -70%);
+            -o-transform: translate(-10%, -70%);
+            transform: translate(-10%, -70%);
+        }
+
+#buttright
+{
+    position: absolute;
+    left: 90%;
+    top: 70%;
+    -webkit-transform: translate(-90%, -70%);
+    -moz-transform: translate(-90%, -70%);
+    -ms-transform: translate(-90%, -70%);
+    -o-transform: translate(-90%, -70%);
+    transform: translate(-90%, -70%);
+}
+#timer, #endtimer
+{
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+
+    position: absolute;
+    left: 50%;
+    top: 90%;
+    -webkit-transform: translate(-50%, -90%);
+    -moz-transform: translate(-50%, -90%);
+    -ms-transform: translate(-50%, -90%);
+    -o-transform: translate(-50%, -90%);
+    transform: translate(-50%, -90%);
+
+
+}
+}
+@media screen and (max-width: 1560px)
+{
+label
+    {
+        max-width:95%;
+        vertical-align:top;
+    }
+input
+    {
+        vertical-align:top;
+    }
+
+#buttq
+        {
+                background-color: #000;
+                border: none;
+                color: white;
+                width: 300px;
+                height: 50px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 30px;
+                cursor: pointer;
+
+                position: absolute;
+                left: 50%;
+                top: 70%;
+                -webkit-transform: translate(-50%, -70%);
+                -moz-transform: translate(-50%, -70%);
+                -ms-transform: translate(-50%, -70%);
+                -o-transform: translate(-50%, -70%);
+                transform: translate(-50%, -70%);
+        }
+
+#contentbutt
+        {
+                border: 1px solid black;
+                width: 1000px;
+                height: 70px;
+        }
+#buttqnumb
+        {
+                border: 1px solid black;
+                width: 800px;
+                height: 75px;
+                position: absolute;
+                left: 50%;
+                top: 10%;
+                -webkit-transform: translate(-50%, -10%);
+                -moz-transform: translate(-50%, -10%);
+                -ms-transform: translate(-50%, -10%);
+                -o-transform: translate(-50%, -10%);
+                transform: translate(-50%, -10%);
+
+
+
+        }
+#buttqnummb
+        {
+            padding:5px;
+            text-align: center;
+
+        }
+#namequestions
+            {
+                text-decoration: none;
+                display: inline-block;
+                font-size: 26px;
+
+                position: absolute;
+                left: 50%;
+                top: 20%;
+                -webkit-transform: translate(-50%, -20%);
+                -moz-transform: translate(-50%, -20%);
+                -ms-transform: translate(-50%, -20%);
+                -o-transform: translate(-50%, -20%);
+                transform: translate(-50%, -20%);
+            }
+#formquestions
+            {
+
+                position: absolute;
+                left: 50%;
+                top: 40%;
+                -webkit-transform: translate(-50%, -40%);
+                -moz-transform: translate(-50%, -40%);
+                -ms-transform: translate(-50%, -40%);
+                -o-transform: translate(-50%, -40%);
+                transform: translate(-50%, -40%);
+            }
+#content
+        {
+                width: 800px;
+                height: 650px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                -moz-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                -o-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+        }
+#questions
+        {
+                border: 1px solid black;
+                width: 800px;
+                height: 350px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                -moz-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                -o-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+        }
+
+
+
+
+#buttleft
+        {
+
+            position: absolute;
+            left: 10%;
+            top: 70%;
+            -webkit-transform: translate(-10%, -70%);
+            -moz-transform: translate(-10%, -70%);
+            -ms-transform: translate(-10%, -70%);
+            -o-transform: translate(-10%, -70%);
+            transform: translate(-10%, -70%);
+        }
+
+#buttright
+{
+    position: absolute;
+    left: 90%;
+    top: 70%;
+    -webkit-transform: translate(-90%, -70%);
+    -moz-transform: translate(-90%, -70%);
+    -ms-transform: translate(-90%, -70%);
+    -o-transform: translate(-90%, -70%);
+    transform: translate(-90%, -70%);
+}
+#timer, #endtimer
+{
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+
+    position: absolute;
+    left: 50%;
+    top: 90%;
+    -webkit-transform: translate(-50%, -90%);
+    -moz-transform: translate(-50%, -90%);
+    -ms-transform: translate(-50%, -90%);
+    -o-transform: translate(-50%, -90%);
+    transform: translate(-50%, -90%);
+
+
+}
+}
+@media screen and (max-width: 1400px)
+{
+label
+    {
+        max-width:95%;
+        vertical-align:top;
+    }
+input
+    {
+        vertical-align:top;
+    }
+
+#buttq
+        {
+                background-color: #000;
+                border: none;
+                color: white;
+                width: 300px;
+                height: 50px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 30px;
+                cursor: pointer;
+
+                position: absolute;
+                left: 50%;
+                top: 70%;
+                -webkit-transform: translate(-50%, -70%);
+                -moz-transform: translate(-50%, -70%);
+                -ms-transform: translate(-50%, -70%);
+                -o-transform: translate(-50%, -70%);
+                transform: translate(-50%, -70%);
+        }
+
+#contentbutt
+        {
+                border: 1px solid black;
+                width: 1000px;
+                height: 70px;
+        }
+#buttqnumb
+        {
+                border: 1px solid black;
+                width: 800px;
+                height: 75px;
+                position: absolute;
+                left: 50%;
+                top: 10%;
+                -webkit-transform: translate(-50%, -10%);
+                -moz-transform: translate(-50%, -10%);
+                -ms-transform: translate(-50%, -10%);
+                -o-transform: translate(-50%, -10%);
+                transform: translate(-50%, -10%);
+
+
+
+        }
+#buttqnummb
+        {
+            padding:5px;
+            text-align: center;
+
+        }
+#namequestions
+            {
+                text-decoration: none;
+                display: inline-block;
+                font-size: 26px;
+
+                position: absolute;
+                left: 50%;
+                top: 20%;
+                -webkit-transform: translate(-50%, -20%);
+                -moz-transform: translate(-50%, -20%);
+                -ms-transform: translate(-50%, -20%);
+                -o-transform: translate(-50%, -20%);
+                transform: translate(-50%, -20%);
+            }
+#formquestions
+            {
+
+                position: absolute;
+                left: 50%;
+                top: 40%;
+                -webkit-transform: translate(-50%, -40%);
+                -moz-transform: translate(-50%, -40%);
+                -ms-transform: translate(-50%, -40%);
+                -o-transform: translate(-50%, -40%);
+                transform: translate(-50%, -40%);
+            }
+#content
+        {
+                width: 800px;
+                height: 650px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                -moz-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                -o-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+        }
+#questions
+        {
+                border: 1px solid black;
+                width: 800px;
+                height: 350px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                -moz-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                -o-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+        }
+
+
+
+
+#buttleft
+        {
+
+            position: absolute;
+            left: 10%;
+            top: 70%;
+            -webkit-transform: translate(-10%, -70%);
+            -moz-transform: translate(-10%, -70%);
+            -ms-transform: translate(-10%, -70%);
+            -o-transform: translate(-10%, -70%);
+            transform: translate(-10%, -70%);
+        }
+
+#buttright
+{
+    position: absolute;
+    left: 90%;
+    top: 70%;
+    -webkit-transform: translate(-90%, -70%);
+    -moz-transform: translate(-90%, -70%);
+    -ms-transform: translate(-90%, -70%);
+    -o-transform: translate(-90%, -70%);
+    transform: translate(-90%, -70%);
+}
+#timer, #endtimer
+{
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+
+    position: absolute;
+    left: 50%;
+    top: 90%;
+    -webkit-transform: translate(-50%, -90%);
+    -moz-transform: translate(-50%, -90%);
+    -ms-transform: translate(-50%, -90%);
+    -o-transform: translate(-50%, -90%);
+    transform: translate(-50%, -90%);
+
+
+}
+}
+@media screen and (max-width: 1320px)
+{
+label
+    {
+        max-width:95%;
+        vertical-align:top;
+    }
+input
+    {
+        vertical-align:top;
+    }
+
+#buttq
+        {
+                background-color: #000;
+                border: none;
+                color: white;
+                width: 300px;
+                height: 50px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 30px;
+                cursor: pointer;
+
+                position: absolute;
+                left: 50%;
+                top: 70%;
+                -webkit-transform: translate(-50%, -70%);
+                -moz-transform: translate(-50%, -70%);
+                -ms-transform: translate(-50%, -70%);
+                -o-transform: translate(-50%, -70%);
+                transform: translate(-50%, -70%);
+        }
+
+#contentbutt
+        {
+                border: 1px solid black;
+                width: 1000px;
+                height: 70px;
+        }
+#buttqnumb
+        {
+                border: 1px solid black;
+                width: 800px;
+                height: 75px;
+                position: absolute;
+                left: 50%;
+                top: 10%;
+                -webkit-transform: translate(-50%, -10%);
+                -moz-transform: translate(-50%, -10%);
+                -ms-transform: translate(-50%, -10%);
+                -o-transform: translate(-50%, -10%);
+                transform: translate(-50%, -10%);
+
+
+
+        }
+#buttqnummb
+        {
+            padding:5px;
+            text-align: center;
+
+        }
+#namequestions
+            {
+                text-decoration: none;
+                display: inline-block;
+                font-size: 26px;
+
+                position: absolute;
+                left: 50%;
+                top: 20%;
+                -webkit-transform: translate(-50%, -20%);
+                -moz-transform: translate(-50%, -20%);
+                -ms-transform: translate(-50%, -20%);
+                -o-transform: translate(-50%, -20%);
+                transform: translate(-50%, -20%);
+            }
+#formquestions
+            {
+
+                position: absolute;
+                left: 50%;
+                top: 40%;
+                -webkit-transform: translate(-50%, -40%);
+                -moz-transform: translate(-50%, -40%);
+                -ms-transform: translate(-50%, -40%);
+                -o-transform: translate(-50%, -40%);
+                transform: translate(-50%, -40%);
+            }
+#content
+        {
+                width: 800px;
+                height: 650px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                -moz-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                -o-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+        }
+#questions
+        {
+                border: 1px solid black;
+                width: 800px;
+                height: 350px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                -moz-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                -o-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+        }
+
+
+
+
+#buttleft
+        {
+
+            position: absolute;
+            left: 10%;
+            top: 70%;
+            -webkit-transform: translate(-10%, -70%);
+            -moz-transform: translate(-10%, -70%);
+            -ms-transform: translate(-10%, -70%);
+            -o-transform: translate(-10%, -70%);
+            transform: translate(-10%, -70%);
+        }
+
+#buttright
+{
+    position: absolute;
+    left: 90%;
+    top: 70%;
+    -webkit-transform: translate(-90%, -70%);
+    -moz-transform: translate(-90%, -70%);
+    -ms-transform: translate(-90%, -70%);
+    -o-transform: translate(-90%, -70%);
+    transform: translate(-90%, -70%);
+}
+#timer, #endtimer
+{
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+
+    position: absolute;
+    left: 50%;
+    top: 90%;
+    -webkit-transform: translate(-50%, -90%);
+    -moz-transform: translate(-50%, -90%);
+    -ms-transform: translate(-50%, -90%);
+    -o-transform: translate(-50%, -90%);
+    transform: translate(-50%, -90%);
+
+
+}
+}
+@media screen and (max-width: 1200px)
+{
+label
+    {
+        max-width:95%;
+        vertical-align:top;
+    }
+input
+    {
+        vertical-align:top;
+    }
+
+#buttq
+        {
+                background-color: #000;
+                border: none;
+                color: white;
+                width: 300px;
+                height: 50px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 30px;
+                cursor: pointer;
+
+                position: absolute;
+                left: 50%;
+                top: 70%;
+                -webkit-transform: translate(-50%, -70%);
+                -moz-transform: translate(-50%, -70%);
+                -ms-transform: translate(-50%, -70%);
+                -o-transform: translate(-50%, -70%);
+                transform: translate(-50%, -70%);
+        }
+
+#contentbutt
+        {
+                border: 1px solid black;
+                width: 1000px;
+                height: 70px;
+        }
+#buttqnumb
+        {
+                border: 1px solid black;
+                width: 800px;
+                height: 75px;
+                position: absolute;
+                left: 50%;
+                top: 10%;
+                -webkit-transform: translate(-50%, -10%);
+                -moz-transform: translate(-50%, -10%);
+                -ms-transform: translate(-50%, -10%);
+                -o-transform: translate(-50%, -10%);
+                transform: translate(-50%, -10%);
+
+
+
+        }
+#buttqnummb
+        {
+            padding:5px;
+            text-align: center;
+
+        }
+#namequestions
+            {
+                text-decoration: none;
+                display: inline-block;
+                font-size: 26px;
+
+                position: absolute;
+                left: 50%;
+                top: 20%;
+                -webkit-transform: translate(-50%, -20%);
+                -moz-transform: translate(-50%, -20%);
+                -ms-transform: translate(-50%, -20%);
+                -o-transform: translate(-50%, -20%);
+                transform: translate(-50%, -20%);
+            }
+#formquestions
+            {
+
+                position: absolute;
+                left: 50%;
+                top: 40%;
+                -webkit-transform: translate(-50%, -40%);
+                -moz-transform: translate(-50%, -40%);
+                -ms-transform: translate(-50%, -40%);
+                -o-transform: translate(-50%, -40%);
+                transform: translate(-50%, -40%);
+            }
+#content
+        {
+                width: 800px;
+                height: 650px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                -moz-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                -o-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+        }
+#questions
+        {
+                border: 1px solid black;
+                width: 800px;
+                height: 350px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                -moz-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                -o-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+        }
+
+
+
+
+#buttleft
+        {
+
+            position: absolute;
+            left: 10%;
+            top: 70%;
+            -webkit-transform: translate(-10%, -70%);
+            -moz-transform: translate(-10%, -70%);
+            -ms-transform: translate(-10%, -70%);
+            -o-transform: translate(-10%, -70%);
+            transform: translate(-10%, -70%);
+        }
+
+#buttright
+{
+    position: absolute;
+    left: 90%;
+    top: 70%;
+    -webkit-transform: translate(-90%, -70%);
+    -moz-transform: translate(-90%, -70%);
+    -ms-transform: translate(-90%, -70%);
+    -o-transform: translate(-90%, -70%);
+    transform: translate(-90%, -70%);
+}
+#timer, #endtimer
+{
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+
+    position: absolute;
+    left: 50%;
+    top: 90%;
+    -webkit-transform: translate(-50%, -90%);
+    -moz-transform: translate(-50%, -90%);
+    -ms-transform: translate(-50%, -90%);
+    -o-transform: translate(-50%, -90%);
+    transform: translate(-50%, -90%);
+
+
+}
+}
+@media screen and (max-width: 998px)
+{
+label
+    {
+        max-width:95%;
+        vertical-align:top;
+    }
+input
+    {
+        vertical-align:top;
+    }
+
+#buttq
+        {
+                background-color: #000;
+                border: none;
+                color: white;
+                width: 300px;
+                height: 50px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 30px;
+                cursor: pointer;
+
+                position: absolute;
+                left: 50%;
+                top: 70%;
+                -webkit-transform: translate(-50%, -70%);
+                -moz-transform: translate(-50%, -70%);
+                -ms-transform: translate(-50%, -70%);
+                -o-transform: translate(-50%, -70%);
+                transform: translate(-50%, -70%);
+        }
+
+#contentbutt
+        {
+                border: 1px solid black;
+                width: 1000px;
+                height: 70px;
+        }
+#buttqnumb
+        {
+                border: 1px solid black;
+                width: 700px;
+                height: 75px;
+                position: absolute;
+                left: 50%;
+                top: 10%;
+                -webkit-transform: translate(-50%, -10%);
+                -moz-transform: translate(-50%, -10%);
+                -ms-transform: translate(-50%, -10%);
+                -o-transform: translate(-50%, -10%);
+                transform: translate(-50%, -10%);
+
+
+
+        }
+#buttqnummb
+        {
+            padding:5px;
+            text-align: center;
+
+        }
+#namequestions
+            {
+                text-decoration: none;
+                display: inline-block;
+                font-size: 26px;
+
+                position: absolute;
+                left: 50%;
+                top: 20%;
+                -webkit-transform: translate(-50%, -20%);
+                -moz-transform: translate(-50%, -20%);
+                -ms-transform: translate(-50%, -20%);
+                -o-transform: translate(-50%, -20%);
+                transform: translate(-50%, -20%);
+            }
+#formquestions
+            {
+
+                position: absolute;
+                left: 50%;
+                top: 40%;
+                -webkit-transform: translate(-50%, -40%);
+                -moz-transform: translate(-50%, -40%);
+                -ms-transform: translate(-50%, -40%);
+                -o-transform: translate(-50%, -40%);
+                transform: translate(-50%, -40%);
+            }
+#content
+        {
+                width: 700px;
+                height: 650px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                -moz-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                -o-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+        }
+#questions
+        {
+                border: 1px solid black;
+                width: 700px;
+                height: 350px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                -moz-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                -o-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+        }
+
+
+
+
+#buttleft
+        {
+
+            position: absolute;
+            left: 10%;
+            top: 70%;
+            -webkit-transform: translate(-10%, -70%);
+            -moz-transform: translate(-10%, -70%);
+            -ms-transform: translate(-10%, -70%);
+            -o-transform: translate(-10%, -70%);
+            transform: translate(-10%, -70%);
+        }
+
+#buttright
+{
+    position: absolute;
+    left: 90%;
+    top: 70%;
+    -webkit-transform: translate(-90%, -70%);
+    -moz-transform: translate(-90%, -70%);
+    -ms-transform: translate(-90%, -70%);
+    -o-transform: translate(-90%, -70%);
+    transform: translate(-90%, -70%);
+}
+#timer, #endtimer
+{
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+
+    position: absolute;
+    left: 50%;
+    top: 90%;
+    -webkit-transform: translate(-50%, -90%);
+    -moz-transform: translate(-50%, -90%);
+    -ms-transform: translate(-50%, -90%);
+    -o-transform: translate(-50%, -90%);
+    transform: translate(-50%, -90%);
+
+
+}
+}
+@media screen and (max-width: 768px)
+{
+label
+    {
+        max-width:95%;
+        vertical-align:top;
+    }
+input
+    {
+        vertical-align:top;
+    }
+
+#buttq
+        {
+                background-color: #000;
+                border: none;
+                color: white;
+                width: 300px;
+                height: 50px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 30px;
+                cursor: pointer;
+
+                position: absolute;
+                left: 50%;
+                top: 70%;
+                -webkit-transform: translate(-50%, -70%);
+                -moz-transform: translate(-50%, -70%);
+                -ms-transform: translate(-50%, -70%);
+                -o-transform: translate(-50%, -70%);
+                transform: translate(-50%, -70%);
+        }
+
+#contentbutt
+        {
+                border: 1px solid black;
+                width: 1000px;
+                height: 70px;
+        }
+#buttqnumb
+        {
+                border: 1px solid black;
+                width: 600px;
+                height: 75px;
+                position: absolute;
+                left: 50%;
+                top: 10%;
+                -webkit-transform: translate(-50%, -10%);
+                -moz-transform: translate(-50%, -10%);
+                -ms-transform: translate(-50%, -10%);
+                -o-transform: translate(-50%, -10%);
+                transform: translate(-50%, -10%);
+
+
+
+        }
+#buttqnummb
+        {
+            padding:5px;
+            text-align: center;
+
+        }
+#namequestions
+            {
+                text-decoration: none;
+                display: inline-block;
+                font-size: 26px;
+
+                position: absolute;
+                left: 50%;
+                top: 20%;
+                -webkit-transform: translate(-50%, -20%);
+                -moz-transform: translate(-50%, -20%);
+                -ms-transform: translate(-50%, -20%);
+                -o-transform: translate(-50%, -20%);
+                transform: translate(-50%, -20%);
+            }
+#formquestions
+            {
+
+                position: absolute;
+                left: 50%;
+                top: 40%;
+                -webkit-transform: translate(-50%, -40%);
+                -moz-transform: translate(-50%, -40%);
+                -ms-transform: translate(-50%, -40%);
+                -o-transform: translate(-50%, -40%);
+                transform: translate(-50%, -40%);
+            }
+#content
+        {
+                width: 600px;
+                height: 650px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                -moz-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                -o-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+        }
+#questions
+        {
+                border: 1px solid black;
+                width: 600px;
+                height: 350px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                -moz-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                -o-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+        }
+
+
+
+
+#buttleft
+        {
+
+            position: absolute;
+            left: 10%;
+            top: 70%;
+            -webkit-transform: translate(-10%, -70%);
+            -moz-transform: translate(-10%, -70%);
+            -ms-transform: translate(-10%, -70%);
+            -o-transform: translate(-10%, -70%);
+            transform: translate(-10%, -70%);
+        }
+
+#buttright
+{
+    position: absolute;
+    left: 90%;
+    top: 70%;
+    -webkit-transform: translate(-90%, -70%);
+    -moz-transform: translate(-90%, -70%);
+    -ms-transform: translate(-90%, -70%);
+    -o-transform: translate(-90%, -70%);
+    transform: translate(-90%, -70%);
+}
+#timer, #endtimer
+{
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+
+    position: absolute;
+    left: 50%;
+    top: 90%;
+    -webkit-transform: translate(-50%, -90%);
+    -moz-transform: translate(-50%, -90%);
+    -ms-transform: translate(-50%, -90%);
+    -o-transform: translate(-50%, -90%);
+    transform: translate(-50%, -90%);
+
+
+}
+}
+@media screen and (max-width: 620px)
+{
+label
+    {
+        max-width:95%;
+        vertical-align:top;
+    }
+input
+    {
+        vertical-align:top;
+    }
+
+#buttq
+        {
+                background-color: #000;
+                border: none;
+                color: white;
+                width: 300px;
+                height: 50px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 30px;
+                cursor: pointer;
+
+                position: absolute;
+                left: 50%;
+                top: 70%;
+                -webkit-transform: translate(-50%, -70%);
+                -moz-transform: translate(-50%, -70%);
+                -ms-transform: translate(-50%, -70%);
+                -o-transform: translate(-50%, -70%);
+                transform: translate(-50%, -70%);
+        }
+
+#contentbutt
+        {
+                border: 1px solid black;
+                width: 1000px;
+                height: 70px;
+        }
+#buttqnumb
+        {
+                border: 1px solid black;
+                width: 520px;
+                height: 75px;
+                position: absolute;
+                left: 50%;
+                top: 10%;
+                -webkit-transform: translate(-50%, -10%);
+                -moz-transform: translate(-50%, -10%);
+                -ms-transform: translate(-50%, -10%);
+                -o-transform: translate(-50%, -10%);
+                transform: translate(-50%, -10%);
+
+
+
+        }
+#buttqnummb
+        {
+            padding:5px;
+            text-align: center;
+
+        }
+#namequestions
+            {
+                text-decoration: none;
+                display: inline-block;
+                font-size: 26px;
+
+                position: absolute;
+                left: 50%;
+                top: 20%;
+                -webkit-transform: translate(-50%, -20%);
+                -moz-transform: translate(-50%, -20%);
+                -ms-transform: translate(-50%, -20%);
+                -o-transform: translate(-50%, -20%);
+                transform: translate(-50%, -20%);
+            }
+#formquestions
+            {
+
+                position: absolute;
+                left: 50%;
+                top: 40%;
+                -webkit-transform: translate(-50%, -40%);
+                -moz-transform: translate(-50%, -40%);
+                -ms-transform: translate(-50%, -40%);
+                -o-transform: translate(-50%, -40%);
+                transform: translate(-50%, -40%);
+            }
+#content
+        {
+                width: 520px;
+                height: 650px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                -moz-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                -o-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+        }
+#questions
+        {
+                border: 1px solid black;
+                width: 520px;
+                height: 350px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                -moz-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                -o-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+        }
+
+
+
+
+#buttleft
+        {
+
+            position: absolute;
+            left: 10%;
+            top: 70%;
+            -webkit-transform: translate(-10%, -70%);
+            -moz-transform: translate(-10%, -70%);
+            -ms-transform: translate(-10%, -70%);
+            -o-transform: translate(-10%, -70%);
+            transform: translate(-10%, -70%);
+        }
+
+#buttright
+{
+    position: absolute;
+    left: 90%;
+    top: 70%;
+    -webkit-transform: translate(-90%, -70%);
+    -moz-transform: translate(-90%, -70%);
+    -ms-transform: translate(-90%, -70%);
+    -o-transform: translate(-90%, -70%);
+    transform: translate(-90%, -70%);
+}
+#timer, #endtimer
+{
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+
+    position: absolute;
+    left: 50%;
+    top: 90%;
+    -webkit-transform: translate(-50%, -90%);
+    -moz-transform: translate(-50%, -90%);
+    -ms-transform: translate(-50%, -90%);
+    -o-transform: translate(-50%, -90%);
+    transform: translate(-50%, -90%);
+
+
+}
+}
 
 </style>
 
 
+
 <div id="content">
 
-                    <div id="buttqnumb">
+<div id="buttqnumb">
+                        <div id="buttqnummb">
+
+
                                 {% for item in questions %}
                                 <input
                                 style="
@@ -283,6 +1640,7 @@ input
                                 cursor: pointer;"
                                 onclick="showquestions('{{loop.index}}', '{{ questions|length }}')" type="submit" value="{{loop.index}}">
                                 {% endfor %}
+                        </div>
                     </div>
 
                     <div id="questions">
@@ -318,7 +1676,7 @@ input
                                                             <div id="timer">0</div>
 
 
-                                                            <input id="buttq" type="submit" value="Отправить">
+                                                            <input onclick="form.submit()" id="buttq" type="button" value="Отправить">
                                                         </form>
 
 

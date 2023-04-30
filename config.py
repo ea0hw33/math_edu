@@ -8,7 +8,7 @@ class Config(object):
     WTF_CSRF_SECRET_KEY = os.urandom(24)
     SECRET_KEY = os.urandom(24)
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'edu.db')
-    PERMANENT_SESSION_LIFETIME = timedelta(minutes=10)
+    PERMANENT_SESSION_LIFETIME = timedelta(minutes=300)
 
 class ProductionConfig(Config):
     DEBUG = False

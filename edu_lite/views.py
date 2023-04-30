@@ -16,12 +16,6 @@ def parse_data():
 
         # only need the id we grabbed in my case.
         id = request.args.keys()
-        # print(id)
-
-        # When returning data it has to be jsonify'ed and a list of tuples (id, value) to populate select fields.
-        # Example: [('1', 'One'), ('2', 'Two'), ('3', 'Three')]
-
-    # return jsonify(new_list)
 
 @app.route('/topic', methods=['GET', 'POST'])
 @login_required
@@ -182,8 +176,6 @@ def get_past_attempts():
     attempts = [(a.id, a.starttime, a.endtime,a.topic_id,a.subtopic_id) for a in db.session.query(Attempts).filter(Attempts.student_id==student_id)]
     for attempt in attempts:
         topic = [t.name for t in db.session.query(Topics).filter(Topics.id == attempt[3])]
-        print(topic)
-        print(attempt[3])
         subtopic = [st.name for st in db.session.query(Subtopics).filter(Subtopics.id == attempt[4])]
         results = [(r.question_id,r.fact_answer) for r in db.session.query(Results).filter(Results.attempt_id == attempt[0])]
 
