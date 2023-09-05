@@ -6,6 +6,7 @@ from edu_lite import models
 
 
 class Manage():
+    
 
     @staticmethod
     def generate_expression(topicId, subtopicId):
@@ -17,6 +18,9 @@ class Manage():
                 return Manage.wholeNumbers(subtopicId)
             case '11,12,13,14,15':
                 return Manage.decimalNumbers(subtopicId)
+            case '16,17,18':
+                return Manage.decimalNumbers(subtopicId)
+            
 
     @staticmethod
     def integers(Subtopic):
@@ -61,6 +65,7 @@ class Manage():
                 answer = a ** sqr
 
         return question, str(answer)
+    
 
     @staticmethod
     def wholeNumbers(Subtopic):
@@ -105,6 +110,7 @@ class Manage():
                 answer = a ** sqr
 
         return question, str(answer)
+    
 
     @staticmethod
     def decimalNumbers(Subtopic):
@@ -153,6 +159,51 @@ class Manage():
                 question = f"{a} ^ {sqr}"
                 answer = round(a ** sqr, sqr*2)
         return question, str(answer)
+    
+    
+    @staticmethod
+    def mixedFractions(Subtopic):
+        
+        def iseven(number):
+            if number % 2 == 0:
+                return True
+            else:
+                return False
+        
+        def getIrreducibleFrac():
+            denominator = randint(3,11)
+            numerator = randint(1,denominator-1)
+            
+            while any([math.gcd(denominator,numerator)>1,
+                        iseven(numerator)==iseven(denominator)]):
+                numerator = randint(1,denominator-1)
+            
+            return numerator,denominator
+        
+        
+        question = ''
+        answer = ''
+        match Subtopic: 
+            case 16:
+                numerator, denominator = getIrreducibleFrac()
+                
+                a = 0
+                while a in [-1,0,1]:
+                    a = randint(-11,11)
+                    
+                question = f"{numerator*a}/{denominator*a}"
+                answer = f"{numerator}/{denominator}"
+            case 17:
+                numerator, denominator = getIrreducibleFrac()
+                wholenum = randint(2,13)
+                question = f"{wholenum}({numerator}/{denominator})"
+                answer = f"{wholenum*denominator+numerator}/{denominator}"
+            case 18:
+                numerator, denominator = getIrreducibleFrac()
+                wholenum = randint(2,13)
+                answer = f"{wholenum}({numerator}/{denominator})"
+                question = f"{wholenum*denominator+numerator}/{denominator}"
+        return question, answer
 
 def add_questions(topicId,subtopicId):
     question, answer = Manage.generate_expression(topicId,int(subtopicId))
