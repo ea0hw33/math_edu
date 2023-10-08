@@ -8,11 +8,6 @@ Getting started
 4. Run 'createdb.py' and 'createadmin.py' scripts.
 5. Launch app with 'run.py' script.
 
-Uploading tests
-
-1. Open app page in browser(by default it's localhost:5000)
-2. Get autorized as admin user.
-
 Creating students
 
 1. Open app page in browser(by default it's localhost:5000)
